@@ -1,47 +1,13 @@
 <!DOCTYPE html>
 <!--
-  ================================================================
-  编程猫 · 科特班英才计划  |  横向分页 H5
-  ================================================================
-  【图片怎么放】
-  所有图片都是 assets/ 下的独立 .webp 文件（2026-09-27 起不再内嵌 base64）。
-  ⚠️ 发布时必须把 index.html 和 assets/ 整个目录一起上传，缺一个就裂图。
-  加图：把图压成 webp 丢进 assets/，再在对应位置加一行引用即可。
-
-  【七个页面的图片位】
-    01 项目介绍   循环画廊 6 张   · assets/01-01 ~ 01-06   （webp 宽 820 / 1180）
-    02 成长路径   单张大图 1 张   · assets/02-01           （<img class="pic">）
-    03 学习收获   并排双图 2 张   · assets/06-01 / 06-02    （.pic2 > .pcard，不滚动，可点开放大）
-    04 课程体系   循环画廊 9 张   · assets/03-01 ~ 03-09
-    05 师资力量   循环画廊 5 张   · assets/04-01 ~ 04-05
-    06 赛考规划   循环画廊 3 张   · assets/05-01 ~ 05-03
-    07 品牌实力   循环画廊 13 张  · assets/07-01 ~ 07-13
-                  + assets/logo-orgs.webp（页面顶部「编程猫·北大·UNESCO·IOI」logo 条）
-    〔08 报名福利，仅 ?price=1〕券图 q-coupon + 福利画廊 q-f1~f10；
-      ★ 补贴 / 退费说明 = 页面原生 HTML 卡片 .qsheet（2026-09-29 起，与 rocket 版一致）
-      → q-subsidy / q-refund 两张官方图已不再引用，文件留在 assets 备用
-
-  【循环画廊怎么改】HTML 只写一份，脚本自动克隆出无缝副本；CSS / JS / 灯箱全站已就位
-    · ⚠️ 每张卡必须写 style="--ar:图片宽÷高"（如 1180×577 → --ar:2.0451）
-      卡片宽 = 行高 × 该比例；漏写会退回兜底 .8，那一张宽度就不对了
-    · 改行高：只改 .gallery 的 --glh（现 180px；上限 190，超了最宽那张会看不全）
-    · 增删图片：只改 .gl-track 里的 <button class="gl-i">，不用动 JS
-    · 除首页外所有图片都加 loading="lazy"（滚到才加载，省流量）
-    · 超长竖图（比例 < 0.5）靠 .gl-i 的 min-width:90px 兜底，避免被压成一条线
-
-  【某页想放并排图（不滚动）】
-  用 <div class="pic2" data-pics> 包两个 <button class="pcard">，会自动接上点击放大。
-  单张整幅图直接 <img class="pic">，按原始比例完整显示、不裁切。
-
-  【新增页面】
-  复制一个 slide 区块（section class="slide"），
-  并在顶部导航里按顺序加一个对应刻度（button class="nav-seg" + aria-label="页名"）。
-  总页数、当前页码、进度条都由 JS 按 slide 数量自动计算，不需要改 JS。
-  （删页同理：整段 section 连同对应的 nav-seg 一起删掉即可。）
-  【封面】
-  A 方案（大字报沉浸红）已定稿；B / C 两套对比方案已删除，
-  要回看对比效果请看同目录的「封面三方案对比.png」。
-  ================================================================
+  编程猫 · Python科特班英才计划 | 连续纵向课程介绍
+  阅读顺序：认识计划 → 学科价值 → 时间安排 → 课程详情 → 作品案例 → 学习变化 → 师资力量 → 赛考服务 → 半年3证 → 品牌实力 → 购课权益。
+  默认展示10个章节；?price=1 仅追加第11章购课权益与报价。
+  主LOGO、课程图和素材放在 assets/，发布时需与 index.html 一起上传。
+  关键图片按原比例展开；.story-media[data-pics] 内的 .pcard 复用图片放大层。
+  图片须设置实际 width/height，避免懒加载改变阅读位置；超长竖图使用 .tall 限制桌面宽度。
+  章节按钮按 .slide 的顺序定位，滚动时自动更新当前章节与阅读进度。
+  直播引导沿用原版：展示直播间权益，入口由班主任提供，不在本站办理下单。
 -->
 <html lang="zh-CN">
 <head>
@@ -51,10 +17,10 @@
 (function(){var p=location.pathname;if(p.charAt(p.length-1)!=="/"&&!/\.[a-z0-9]+$/i.test(p)){location.replace(p+"/"+location.search+location.hash);}})();
 </script>
 
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>编程猫 · 科特班英才计划</title>
+<title>编程猫 · Python科特班英才计划</title>
 <style>
 :root{
   /* === 路径① 色系共振：红金米色系 === */
@@ -601,8 +567,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @keyframes qcpShine{
   0%{transform:translate3d(-170%,0,0) skewX(-14deg)}
   62%,100%{transform:translate3d(300%,0,0) skewX(-14deg)}}
-/* 动效只在本页跑：切到别页自动暂停（外层 JS 给当前页加 .cur） */
-#slideQuote:not(.cur) .qcpwrap,#slideQuote:not(.cur) .qcshine:after{animation-play-state:paused}
+/* 长页面中，优惠券进入视口才播放；滚出后暂停。 */
+#slideQuote .qhero:not(.coupon-visible) .qcpwrap,#slideQuote .qhero:not(.coupon-visible) .qcshine:after{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
   .qhero.rv-in .qcpwrap{animation:none}
   .qcshine:after{animation:none;opacity:0}}
@@ -741,8 +707,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .qlive .qclock{flex:none;width:60px;height:60px;border-radius:50%;
   background:radial-gradient(circle at 32% 28%,#FFF3D2,#F0C46E 58%,#C68A2A);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:0;padding:0;font-family:inherit;cursor:pointer;
   box-shadow:0 4px 12px rgba(0,0,0,.22);animation:qliveRing 2.4s ease-in-out infinite}
-.qlive .qclock b{font-size:19px;font-weight:800;color:#7A1622;line-height:1;letter-spacing:-.02em}
+.qlive .qclock:focus-visible{outline:3px solid #FFF3D2;outline-offset:4px}
+.qlive .qclock b{font-size:16px;white-space:nowrap;font-weight:800;color:#7A1622;line-height:1;letter-spacing:-.02em}
 .qlive .qclock i{font-style:normal;font-size:10px;font-weight:700;color:#8A5A18;margin-top:2px}
 .qlive .qtxt{flex:1;min-width:0}
 .qlive .qtxt h3{margin:0 0 5px;font-size:16.5px;font-weight:800;color:#FFF6E8;letter-spacing:.01em;line-height:1.35}
@@ -755,7 +723,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .qlive .qgo:active{transform:scale(.985)}
 @keyframes qliveRing{0%,100%{box-shadow:0 4px 12px rgba(0,0,0,.22)}
   50%{box-shadow:0 4px 12px rgba(0,0,0,.22),0 0 0 7px rgba(255,214,138,.15)}}
-/* 2026-09-29 改为**全宽吸底条**（Vincent 定的文案「已知晓，晚上预约直播抢报名额！」较长，
+/* 2026-09-29 改为**全宽吸底条**（Vincent 定的文案「今晚19:00官方直播 · 专享权益 ↓」较长，
    右下角小胶囊装不下；全宽条也更像行动按钮，全程跟着不用滑到底） */
 .qlivebar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:70;
   display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;border:0;cursor:pointer;
@@ -779,7 +747,7 @@ body.has-live.at-live .sbody{padding-bottom:96px}
 @media(max-width:600px){
   .qlive{padding:14px 13px 13px}
   .qlive .qclock{width:54px;height:54px}
-  .qlive .qclock b{font-size:17px}
+  .qlive .qclock b{font-size:16px}
   .qlive .qtxt h3{font-size:15.5px}
   .qlive .qtxt p{font-size:12px}
   .qlive .qgo{font-size:14px;padding:10px 8px}
@@ -792,6 +760,137 @@ body.has-live.at-live .sbody{padding-bottom:96px}
   .qcap{font-size:13.5px}
 }
 @media(min-width:620px){.qgal{--glh:172px}}
+/* Supplied primary identity: preserve the full lockup and its clear background. */
+.brand-logo{display:block;height:auto;max-width:100%;background:#fff;border-radius:6px}
+.cvA-top .brand-logo{width:360px;padding:10px 12px}
+.nav-brand .brand-logo{width:180px;padding:5px 7px}
+
+/* Continuous course story: one scroll direction, readable images, named chapter links. */
+html,body{height:auto;overflow:visible}
+html{scroll-behavior:smooth;scroll-padding-top:0}
+.cover{position:relative;inset:auto;min-height:88svh;z-index:0}
+.cover .cvA-mid{margin:64px 0;transform:none}
+.cover .cvA-top{margin-bottom:0}
+.cover .cvA-title{font-size:clamp(48px,7vw,72px)}
+.cover .cvA-mark{bottom:100px}
+.cover .cvA-foot{max-width:720px}
+.deck,.deck.on{position:relative;inset:auto;display:block;opacity:1;pointer-events:auto}
+.nav{position:sticky;top:0;z-index:50;padding-top:8px}
+.nav-top,.nav-row{max-width:960px;margin:auto}
+.nav-row{display:block;padding:0 16px 8px}
+.nav-cur{display:none}
+.nav-segs{gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px}
+.nav-segs::-webkit-scrollbar{display:none}
+.nav-seg,.nav-seg.on{width:auto;min-width:max-content;min-height:44px;height:auto;padding:8px 12px;border-radius:6px;font-size:13px;line-height:1.4;color:#fff3dc;background:transparent}
+.nav-seg.on{background:#fff1d2;color:#721b22;font-weight:700}
+.nav-seg.done{background:transparent}
+.nav-seg:focus-visible,.pcard:focus-visible,.cvA-btn:focus-visible{outline:3px solid #cd8131;outline-offset:3px}
+.nav-prog i{width:0;transition:none}
+.track{display:block;overflow:visible;scroll-snap-type:none}
+.slide{width:100%;height:auto;overflow:visible;scroll-snap-align:none;scroll-snap-stop:normal;overscroll-behavior:auto;scroll-margin-top:140px}
+.slide+.slide{border-top:1px solid var(--line)}
+.sbody{max-width:760px;padding:56px 24px}
+.sbody h2{font-size:clamp(26px,4vw,34px);margin-bottom:24px;line-height:1.4}
+.slead{font-size:16px;line-height:1.9}
+.stag{display:none}
+.story-media{margin:28px 0 40px;display:block}
+.story-media figure{margin:0 0 32px}
+.story-media .pcard{display:block;width:100%;padding:0;background:transparent;cursor:zoom-in;border:0;border-radius:8px;overflow:hidden;box-shadow:none}
+.story-media .pcard img{display:block;width:100%;height:auto;object-fit:contain}
+.story-media figcaption{font-size:14px;line-height:1.8;color:var(--ink-2);margin-top:12px}
+.story-media figcaption b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.story-media .media-hint{font-size:12px;color:var(--ink-3);margin-top:8px}
+.pic2{display:block}
+.pic2 .pcard{margin-bottom:20px}
+.pic{margin:24px 0}
+.rv-item,.rv-item.rv-in{opacity:1;transform:none;transition:none}
+.slide.in .stat,.slide.in .col,.slide.in .dgrid>div,.slide.in .hgrid>div{animation:none;opacity:1;transform:none}
+.arrow,.swipehint{display:none!important}
+.qlivebar{max-width:712px;margin:auto}
+body.has-live.past-cover .qlivebar{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
+body.has-live .deck{padding-bottom:88px}
+.chapter-end{font-size:14px;margin-top:32px;padding-top:20px;border-top:1px solid var(--line)}
+.chapter-end a{color:var(--blue);text-underline-offset:4px}
+@media(min-width:800px){.cover{padding:48px max(32px,calc((100vw - 960px)/2))}.nav-page{font-size:13px}.nav-brand .brand-logo{width:220px}.sbody{padding:72px 24px}}
+@media(max-width:480px){.sbody{padding:40px 20px}.cover{min-height:82svh;padding:32px 24px}.cover .cvA-mid{margin:56px 0}.cover .brand-logo{width:100%}.cvA-facts{font-size:12px}.cvA-facts em{padding:0 5px}.nav-brand .brand-logo{width:180px}.nav-top{padding-bottom:4px}.nav-seg,.nav-seg.on{padding:8px 10px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv>b,.fu{opacity:1;transform:none}}
+
+
+.benefit-grid .story-media{margin:20px 0}.benefit-grid figcaption{font-size:13px}.benefit-grid figcaption b{font-size:14px}
+@media(min-width:640px){.benefit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.benefit-grid .story-media{margin:0}}
+
+.lb-nav[hidden]{display:none}
+
+.story-media.tall .pcard{max-width:440px;margin-inline:auto}
+/* Parent-facing story additions reuse the established type, palette and image viewer. */
+.cover-intro{max-width:620px;margin-top:24px;font-size:clamp(17px,2.4vw,22px);line-height:1.8;color:#fff3dc}
+.plain .pt{font-size:17px;font-weight:700;line-height:1.6}
+.evidence-note{font-size:13px;line-height:1.8;color:var(--ink-2);margin:20px 0}
+.course-details{margin:24px 0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.course-details summary{cursor:pointer;padding:16px 0;font-size:15px;font-weight:700;min-height:48px}
+.course-details summary:focus-visible,.qgo:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.course-details .pb{padding:0 0 20px;font-size:14px;line-height:1.9;color:var(--ink-2)}
+.certificate-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.certificate-grid .story-media{margin:0 0 20px}
+.certificate-grid figcaption b{font-size:14px}
+.certificate-grid figcaption{font-size:13px}
+.scholarship-benefit{margin:20px 0}
+.scholarship-art{aspect-ratio:492/530;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--blue-soft);color:var(--blue-deep);border-radius:8px}
+.scholarship-art span{font-size:16px}
+.scholarship-art strong{font-size:clamp(42px,8vw,72px);line-height:1.2;letter-spacing:-.02em}
+.scholarship-art small{font-size:20px;margin-left:4px}
+.scholarship-art>b{font-size:26px}
+.scholarship-benefit figcaption{font-size:13px;line-height:1.8;color:var(--ink-2);margin-top:12px}
+.scholarship-benefit figcaption b{display:block;color:var(--ink);font-size:14px;margin-bottom:4px}
+.scholarship-line{font-size:17px;margin:20px 0;color:var(--blue-deep)}
+.scholarship-line b{display:block;font-size:26px;margin-top:4px}
+.qexcl h3{font-size:18px;line-height:1.6;margin-bottom:12px}
+.qexcl h3 em{font-style:normal;color:var(--blue)}
+.story-media .media-hint{color:var(--ink-2)}
+@media(min-width:640px){.scholarship-benefit{margin:0}}
+@media(max-width:480px){.certificate-grid{gap:16px}.certificate-grid figcaption{font-size:12px}.certificate-grid figcaption b{font-size:13px}.cover-intro{font-size:17px}}
+
+.plan-intro p+p{margin-top:18px}.plan-rights{margin:0;padding-left:1.4em}.plan-rights li+li{margin-top:14px}.benefits-poster{margin-top:28px}.qlive .qclock b{max-width:100%;font-variant-numeric:tabular-nums}.qlive .qclock i{white-space:nowrap}
+
+.cover{min-height:100svh;box-sizing:border-box}.cover-intro{max-width:100%}.cover-intro span{display:inline}
+@media(max-width:620px){.cover{min-height:100svh;padding:28px 20px}.cover .cvA-mid{margin:40px 0}.cover .cvA-title{font-size:clamp(44px,12vw,62px)}.cover-intro{font-size:clamp(12px,3.3vw,18px);line-height:1.9;letter-spacing:0}.cover-intro span:first-child{white-space:nowrap}.cover .cvA-facts{font-size:clamp(10px,2.75vw,13px)}.cvA-vt{right:6px}.cover .cvA-top{margin-top:0}}
+
+.project-strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:24px 0 0;overscroll-behavior-x:contain}.project-strip::-webkit-scrollbar{display:none}.project-strip figure{flex:0 0 100%;min-width:0;scroll-snap-align:start;margin:0}.project-strip .pcard{height:clamp(380px,60svh,580px);background:#fff}.project-strip .pcard img{width:100%;height:100%;object-fit:contain}.project-controls{display:flex;align-items:center;justify-content:center;gap:24px;margin:16px 0 32px;color:var(--ink-2);font-size:14px}.project-controls button{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);font:24px inherit;cursor:pointer}
+
+/* 本轮：手机章节间距、奖学金票券与轻互动。 */
+.story-media{margin:22px 0 26px}.story-media figure{margin:0 0 22px}.story-media figure:last-child{margin-bottom:0}
+.sbody{padding-top:40px;padding-bottom:40px}.sbody>:last-child{margin-bottom:0}
+.scholarship-ticket{isolation:isolate;padding:18px 16px;text-align:center;color:#fff4d5;background:linear-gradient(125deg,#d72727,#a6091b);border:2px solid #e8b665;outline:1px dashed #ffe1a3;outline-offset:-7px;box-shadow:0 6px 16px #90122126}
+.scholarship-ticket>span{display:block;font-size:13px;letter-spacing:2px}.scholarship-ticket strong{display:block;font:800 64px/1.1 Georgia,serif;color:#ffe8a2}.scholarship-ticket strong small{font-size:26px}.scholarship-ticket>b{font-size:20px;letter-spacing:2px}
+.growth-play{position:relative;text-align:center;padding:40px 10px 16px;margin:24px 0 0;border-top:1px solid #e8d6bc}
+.growth-btn{position:relative;min-height:52px;padding:12px 25px;border:1px solid #e7b15c;border-radius:30px;background:linear-gradient(160deg,#a71928,#761523);box-shadow:0 5px 0 #50101b;color:#fff1cd;font-family:inherit;font-size:18px;font-weight:700;line-height:1.4;cursor:pointer;touch-action:manipulation}
+.growth-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #50101b}.growth-btn.is-shaking{animation:reward-shake .3s ease-out}
+.growth-sound{display:block;margin:16px auto 0;padding:7px 12px;min-height:44px;background:none;border:0;color:#715039;font-size:12px;cursor:pointer}
+.growth-floats{position:absolute;left:0;right:0;top:0;pointer-events:none}.growth-float{display:block;position:absolute;top:16px;left:0;right:0;color:#a71928;font-size:21px;font-weight:800;animation:reward-rise 1s ease-out forwards;text-shadow:0 1px #fff8e9}
+.growth-play .evidence-note{font-size:11px;margin:6px 0 0}
+@keyframes reward-rise{0%{opacity:0;transform:translateY(20px) scale(.85)}20%{opacity:1}100%{opacity:0;transform:translateY(-35px) scale(1.06)}}
+@keyframes reward-shake{20%{transform:rotate(-4deg)}40%{transform:rotate(4deg)}65%{transform:rotate(-2deg)}85%{transform:rotate(2deg)}}
+@media(max-width:480px){.sbody{padding-top:30px;padding-bottom:30px}.story-media{margin:18px 0 22px}.sbody h2{margin-bottom:18px}}
+@media(prefers-reduced-motion:reduce){.growth-btn.is-shaking{animation:none}.growth-float{animation:none;opacity:1;transform:none}}
+/* 老版模块适配纵向手机阅读，画廊限于当前章宽度。 */
+#chapter-10 .gallery,#slideQuote .gallery{overflow:hidden;max-width:100%}
+#chapter-9 .grid3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#chapter-9 .stat{display:block;text-align:center;padding:15px 6px}
+#chapter-9 .stat .n{margin-bottom:5px;font-size:22px}
+#chapter-9 .stat .t{text-align:center;font-size:11px}
+
+.faculty-selection-title{font-size:23px;line-height:1.4;margin-bottom:16px}.faculty-selection-title em{font-style:normal;color:var(--blue)}
+.faculty-selection-summary{margin:24px 0}.faculty-selection-summary .tagline{margin-bottom:24px}
+.qlive .qclock b{font-size:13px;letter-spacing:-.04em}
+
+/* 重点先读：深红标核心价值，深棕加粗支撑信息，沿用原有品牌配色。 */
+.sbody strong.value-key{font-weight:800;color:#9F2228}
+.sbody strong.value-detail{font-weight:750;color:var(--ink)}
+.slide.dark .sbody strong.value-key{color:#FFE1A3}
+.slide.dark .sbody strong.value-detail{color:#FFF3DC}
+.qlive strong.value-detail{color:#FFF3DC}
+.qlive .qclock:active,.qlive .qclock.is-pressed{animation:none;transform:translateY(2px) scale(.9);box-shadow:inset 0 3px 7px rgba(90,41,8,.3),0 1px 3px rgba(0,0,0,.18)}
+@media(prefers-reduced-motion:reduce){.qlive .qclock:active,.qlive .qclock.is-pressed{transform:none}}
 </style>
 </head>
 <body>
@@ -803,25 +902,24 @@ body.has-live.at-live .sbody{padding-bottom:96px}
   <div class="cvA-mark">2026</div>
   <div class="cvA-head">
     <div class="cvA-top">
-      <span class="rv d1"><b>CODEMAO 编程猫</b></span>
-      <i></i>
+      <img class="brand-logo rv d1" src="assets/pku-dianmao-lab.png" alt="北京大学 × 点猫科技 · 人工智能教育联合实验室" width="3201" height="650">
     </div>
-    <div class="cvA-kicker rv d2"><b>编程 · 英才培养方案</b></div>
   </div>
   <div class="cvA-mid">
     <h1 class="cvA-title">
       <span class="rv d2"><b class="w">科特班</b></span>
       <span class="rv d3"><b class="g">英才计划</b></span>
     </h1>
+    <p class="cover-intro fu f4"><span>把编程学习、学科知识、思维训练和赛考升学规划</span><br><span>结合起来的培养计划</span></p>
     <div class="cvA-rule gr"></div>
     <div class="cvA-facts fu f4">
-      <span>6 个月周期</span><em>·</em><span>3 张国家级证书</span><em>·</em><span>50 个编程作品</span>
+      <span>6个月周期</span><em>·</em><span>148个学科知识</span><em>·</em><span>3张国家级证书</span>
     </div>
   </div>
   <div class="cvA-vt">TALENT PROGRAM</div>
   <div class="cvA-foot">
-    <button class="cvA-btn fu f5" data-start>开始浏览 <b>→</b></button>
-    <div class="cvA-swipe fu f5"><i>←</i> 左右滑动浏览全部内容 <i>→</i></div>
+    <button class="cvA-btn fu f5" data-start>看看孩子会怎样学 <b>↓</b></button>
+    <div class="cvA-swipe fu f5">向下阅读，了解完整培养方案</div>
     <a class="cvA-beian" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">湘ICP备2026040882号-1</a>
   </div>
 </div>
@@ -831,226 +929,59 @@ body.has-live.at-live .sbody{padding-bottom:96px}
 <div class="deck" id="deck">
   <nav class="nav">
     <div class="nav-top">
-      <div class="nav-brand"><i></i>编程猫 · 科特班英才计划</div>
-      <div class="nav-page"><b id="pgNow">01</b> / <b id="pgAll">07</b></div>
+      <div class="nav-brand" title="Python科特班英才计划"><img class="brand-logo" src="assets/pku-dianmao-lab.png" alt="北京大学 × 点猫科技 · 人工智能教育联合实验室" width="3201" height="650"></div>
+      <div class="nav-page"><b id="pgNow">01</b> / <b id="pgAll">11</b></div>
     </div>
     <div class="nav-row">
       <div class="nav-cur" id="navCur">项目介绍</div>
-      <div class="nav-segs" id="navTabs">
-        <button class="nav-seg on" data-i="0" aria-label="项目介绍"></button>
-        <button class="nav-seg" data-i="1" aria-label="成长路径"></button>
-        <button class="nav-seg" data-i="2" aria-label="学习收获"></button>
-        <button class="nav-seg" data-i="3" aria-label="课程体系"></button>
-        <button class="nav-seg" data-i="4" aria-label="师资力量"></button>
-        <button class="nav-seg" data-i="5" aria-label="赛考规划"></button>
-        <button class="nav-seg" data-i="6" aria-label="品牌实力"></button>
-        <button class="nav-seg" data-i="7" aria-label="报名福利"></button>
+      <div class="nav-segs" id="navTabs" aria-label="课程介绍章节">
+<button class="nav-seg" data-i="0" aria-label="认识计划">认识计划</button>
+<button class="nav-seg" data-i="1" aria-label="学科价值">学科价值</button>
+<button class="nav-seg" data-i="2" aria-label="时间安排">时间安排</button>
+<button class="nav-seg" data-i="3" aria-label="课程详情">课程详情</button>
+<button class="nav-seg" data-i="4" aria-label="作品案例">作品案例</button>
+<button class="nav-seg" data-i="5" aria-label="学习变化">学习变化</button>
+<button class="nav-seg" data-i="6" aria-label="师资力量">师资力量</button>
+<button class="nav-seg" data-i="7" aria-label="赛考服务">赛考服务</button>
+<button class="nav-seg" data-i="8" aria-label="半年3证">半年3证</button>
+<button class="nav-seg" data-i="9" aria-label="品牌实力">品牌实力</button>
+<button class="nav-seg" data-i="10" aria-label="购课权益">购课权益</button>
       </div>
     </div>
     <div class="nav-prog"><i id="navProg"></i></div>
   </nav>
 
-  <div class="track" id="track">
+  <div class="track" id="track" role="main">
+<section class="slide" id="chapter-1"><div class="sbody">
+<h2>科特班 · 英才计划，<em>是什么</em></h2>
+<div class="slead plan-intro">
+<p>科特班 · 英才计划是点猫科技在“<strong class="value-key">与北京大学联合共建人工智能实验室</strong>”的背景下，全新设立的人才选拔体系。面向在编程学习中展现出突出思维能力和探索兴趣的孩子，通过专项能力评估后入班。</p>
+<p>依托点猫科技独家资源，入班学员可优先享受<strong class="value-key">实验室最新研发成果、教研资源及赛事通道</strong>（登记考级组织代码0001），是培养高级人才的重点班级。</p>
+<p>2026年NCT通过率96%，教育部白名单省赛获奖率95%、国赛获奖率99%；<br>信奥赛CSP-J一等奖平均分277分，超出一等奖分数线187分，CSP-S一等奖平均分246分，超过一等奖分数线186分。</p>
+<p>等考、白名单、信奥赛均为行业第一（*官方数据认证），被誉为<strong class="value-key">少儿编程行业的黄埔军校。</strong></p>
+</div>
+<div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="编程猫科特班英才计划介绍"><img src="assets/plan-overview-current.webp" alt="编程猫科特班英才计划介绍" width="750" height="3301" loading="lazy" decoding="async"></button></figure></div>
+<div class="plain"><h3 class="pt">核心权益</h3><ul class="plan-rights pb">
+<li>优先享受点猫科技与北大联合人工智能实验室最新研发成果、教研资源及赛事通道。</li>
+<li>基于北大联合教研的课程体系，师资配备与培养路径更具针对性。</li>
+<li>与联合实验室共研的赛考人才培养体系，进班学员享有考级备考等专项资源权益，通过试学期学习能力评估后会获得“<strong class="value-detail">赛考种子选手认证</strong>”。</li>
+</ul></div>
+<div class="story-media" data-pics><figure><button class="pcard" type="button" aria-label="放大学员认证示例" data-cap=""><img src="assets/plan-certification.webp" alt="青少年人工智能编创培养计划学员认证示例" loading="lazy" decoding="async" width="1224" height="869"></button></figure></div>
+<div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="科特班和常规班的区别"><img src="assets/plan-class-comparison.webp" alt="科特班和常规班的区别" width="1080" height="748" loading="lazy" decoding="async"></button></figure></div>
+</div></section>
 
-    <!-- ===== 01 项目介绍 ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">01 · 项目介绍</span>
-        <h2>科特班 · <em>英才计划</em></h2>
-        <p class="slead">在「与北京大学联合共建人工智能实验室」背景下全新设立的人才选拔体系。面向编程学习中展现出<b>突出思维能力和探索兴趣</b>的孩子，<b>通过专项能力评估后入班</b>——内部培养高级人才的重点班级。</p>
+<section class="slide" id="chapter-2"><div class="sbody"><h2>编程与学科，<em>1+1&gt;2</em></h2><p class="slead">编程把学科知识变成能运行的作品，也把<b>读懂问题、理清步骤、验证答案、检查错误</b>变成反复练习的过程。让学科学习不再枯燥，从而<strong class="value-key">提高对语数英的学习兴趣</strong>。</p><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="数学知识，不只在书上见过，还要亲手用过"><img src="assets/math-projects.webp" alt="数学知识，不只在书上见过，还要亲手用过" loading="lazy" decoding="async" width="750" height="1710"></button><figcaption><b>数学知识，不只在书上见过，还要亲手用过</b>在绘图项目里，位置、大小和转向都要用数字表达。孩子可以修改参数、观察结果，再解释为什么会这样。<strong class="value-detail">当孩子学会解释数学，就真正学会了数学！</strong></figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="科学：用模型理解地球与天文"><img src="assets/subject-earth-science.webp" alt="科学：用模型理解地球与天文" width="670" height="455" loading="lazy" decoding="async"></button><figcaption><b>科学：用模型理解地球与天文</b>在3D地球模型等项目里，把科学知识变成可观察的画面；通过月食模拟，理解天体位置变化与现象的关系。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="英语：在有用途的场景中反复接触英语词汇"><img src="assets/subject-english-vocabulary.webp" alt="英语：在有用途的场景中反复接触英语词汇" width="665" height="210" loading="lazy" decoding="async"></button><figcaption><b>英语：在有用途的场景中反复接触英语词汇</b>读懂指令、修改程序、观察输出，孩子会反复接触英文关键词，<strong class="value-detail">在实际使用中理解和记忆</strong>。<br><br>科特班包含了小中学全部的英语词汇，当英语在实操中被反复使用，记忆才能真正使孩子掌握。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="语文：读清条件，把过程说清楚"><img src="assets/subject-reading-logic.webp" alt="语文：读清条件，把过程说清楚" width="667" height="257" loading="lazy" decoding="async"></button><figcaption><b>语文：读清条件，把过程说清楚</b>理解任务要求，分清条件与顺序，再向老师和家长讲解作品的设计和步骤，练习有条理地理解与表达。语文靠的是<strong class="value-detail">理解能力和表达</strong>，提高理解能力，自然就会了语文。</figcaption></figure></div><div class="plain"><h3 class="pt">让抽象的知识，看得见、改得动</h3><div class="pb"><b>坐标</b>决定图形画在哪里，<b>角度</b>决定线条转向哪里，<b>规律</b>决定图形怎样继续。孩子要把知识用对，程序才能呈现自己的想法。一次次运行和修改，让“记住一个概念”多了“用它解决问题”的练习。</div></div><div class="plain"><h3 class="pt">把做题需要的方法，放进编程项目里练</h3><div class="pb"><b>读条件</b>｜先说清要完成什么，哪些信息会影响结果。<br><b>理思路</b>｜把大问题分成小步骤，想清先后关系。<br><b>做验证</b>｜运行程序，看结果是否符合预期。<br><b>会检查</b>｜结果不对，回看条件和步骤，找出原因再修改。</div></div><div class="plain"><h3 class="pt">面对校内学习，孩子能够看到的变化</h3><div class="pb"><strong class="value-detail">读题更仔细、解题更有条理、做完愿意检查</strong>，都是值得长期练习的学习方法。课程通过具体任务训练这些方法，帮助孩子把思考过程变清楚。<br><br>编程中的语文、数学、英语等知识，让孩子在有用途的具体场景中<strong class="value-key">反复使用、反复记忆、反复练习</strong>！</div></div><div class="growth-play"><button type="button" class="growth-btn" data-increment="学习成绩+5分">点击提高学习成绩<span aria-hidden="true"> ＋</span></button><div class="growth-floats" aria-hidden="true"></div></div></div></section>
 
-        <div class="grid3">
-          <div class="stat"><div class="n">6<small>个月</small></div><div class="t">完整成长周期</div></div>
-          <div class="stat"><div class="n">3<small>张</small></div><div class="t">国家级证书</div></div>
-          <div class="stat"><div class="n">50<small>个</small></div><div class="t">编程作品</div></div>
-        </div>
+<section class="slide" id="chapter-3"><div class="sbody"><h2>学习时间，<em>怎么安排更从容</em></h2><p class="slead">正式课是<strong class="value-detail">一周一次课，一次两课时</strong><br>两个课时可以分开上<br><br>上课时间比较自由，可以<strong class="value-detail">根据孩子的情况灵活安排</strong>。可以选择开课时间，独享“小班制”教学，比如孩子周六下午比较方便，就可以把上课时间安排在周六下午。</p><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="官方学习时间表"><img src="assets/python-schedule-official.webp" alt="官方学习时间表" width="2000" height="1082" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="Python科特班课程学习时间表"><img src="assets/python-course-time-table.webp" alt="Python科特班课程学习时间表" width="1920" height="1514" loading="lazy" decoding="async"></button></figure></div></div></section>
 
-        <div class="alert">
-          <div class="hd">为什么建议坚持学下去</div>
-          <p>这 3 节课完成的是<b>入门</b>。真正能被升学认可的能力，需要完整的 6 个月才能搭起来。如果停在这里——<b>刚建立的代码思维会在两个月内退回去，刚点燃的兴趣也会一起断掉</b>。</p>
-        </div>
+<section class="slide" id="chapter-4"><div class="sbody"><h2>科特班 · 英才计划<em>课程详情</em></h2><p class="slead">科特班 · 英才计划课程包含：<br>主修课时 + 赠送辅修课</p><div class="plain"><h3 class="pt">主修：60课时</h3><div class="pb"><strong class="value-detail">42个Python编程课时</strong> + <strong class="value-detail">8个硬件编程课时</strong> + <strong class="value-detail">10个名师赛考集训课时</strong></div></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="Python科特班课程大纲"><img src="assets/python-syllabus.webp" alt="Python科特班课程大纲" width="1125" height="4836" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="4个硬件编程作品"><img src="assets/03-03.webp" alt="4个硬件编程作品" width="693" height="1920" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="Python科特班金牌名师赛考集训课"><img src="assets/03-05.webp" alt="Python科特班金牌名师赛考集训课" width="700" height="1787" loading="lazy" decoding="async"></button></figure></div><div class="plain"><h3 class="pt">赠送辅修课：62节课</h3><div class="pb">① 10节赛考实战辅导课<br>② 20节思维强化拓展课<br>③ 5节哈佛学霸家长养成指南<br>④ 25节课前真人直播<br>⑤ 2节英才计划小灶课直播</div></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="哈佛学霸家长指导课"><img src="assets/03-07.webp" alt="哈佛学霸家长指导课" width="700" height="1244" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="赛考主题辅导课"><img src="assets/course-exam-topic-current.webp" alt="赛考主题辅导课" width="604" height="1090" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="Python思维拓展强化课"><img src="assets/03-08.webp" alt="Python思维拓展强化课" width="700" height="2362" loading="lazy" decoding="async"></button></figure></div><div class="plain"><h3 class="pt">配套硬件</h3><div class="pb">一套科特班·英才计划专属配套硬件寄送到家，<strong class="value-key">不需要单独购买</strong>！</div></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="编程猫STEM开源硬件课程套装"><img src="assets/course-hardware-current.webp" alt="编程猫STEM开源硬件课程套装" width="600" height="554" loading="lazy" decoding="async"></button></figure></div></div></section>
 
-        <!-- 循环滚动画廊：加图/删图只改下面 .gl-track 里的 button 即可，
-             不用写第二份（脚本会自动克隆出无缝副本），也不用改 JS -->
-        <div class="gallery" data-gallery>
-          <div class="gl-track">
-          <button class="gl-i" type="button" data-cap="学编程，就选北大合作品牌" style="--ar:0.5609">
-            <img src="assets/01-01.webp" alt="学编程，就选北大合作品牌">
-          </button>
-          <button class="gl-i" type="button" data-cap="全国各地 75 家教育单位及学校代表莅临见证" style="--ar:0.5597">
-            <img src="assets/01-02.webp" alt="全国各地 75 家教育单位及学校代表莅临见证">
-          </button>
-          <button class="gl-i" type="button" data-cap="点猫科技人工智能通识课获北大信科院专家团认可" style="--ar:0.5866">
-            <img src="assets/01-03.webp" alt="点猫科技人工智能通识课获北大信科院专家团认可">
-          </button>
-          <button class="gl-i" type="button" data-cap="青少年人工智能编创培养计划 · 学员认证" style="--ar:1.4149">
-            <img src="assets/01-04.webp" alt="青少年人工智能编创培养计划 · 学员认证">
-          </button>
-          <button class="gl-i" type="button" data-cap="信息学奥赛训练平台（CSP-J / CSP-S / NOIP）" style="--ar:2.0451">
-            <img src="assets/01-05.webp" alt="信息学奥赛训练平台（CSP-J / CSP-S / NOIP）">
-          </button>
-          <button class="gl-i" type="button" data-cap="点猫科技 × 北京大学 · 三大官方合作" style="--ar:1.321">
-            <img src="assets/01-06.webp" alt="点猫科技 × 北京大学 · 三大官方合作">
-          </button>
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="slide" id="chapter-5"><div class="sbody"><h2>看看孩子会做什么，<em>价值就更具体</em></h2><p class="slead">作品好看只是开始。更重要的是：孩子用了什么知识，怎样设计规则，<strong class="value-detail">能不能讲清思路，并独立检查和改进</strong>。以下为基础实例，孩子能<strong class="value-key">独立制作软件项目、硬件机器人</strong>。</p><div class="project-carousel"><div class="project-strip story-media" data-pics aria-label="课程作品案例轮播"><figure><button class="pcard" type="button" data-cap="月食的秘密"><img src="assets/project-lunar-eclipse.webp" alt="月食的秘密完整作品案例" width="670" height="1075" loading="lazy" decoding="async"></button><figcaption><b>月食的秘密</b>把圆、位置关系和天文知识用进模拟作品；孩子要解释月食怎样发生，并通过修改参数验证。</figcaption></figure><figure><button class="pcard" type="button" data-cap="智取星璇"><img src="assets/project-turntable.webp" alt="智取星璇完整作品案例" width="670" height="762" loading="lazy" decoding="async"></button><figcaption><b>智取星璇</b>把圆心角、可能性与分支结构用进转盘；不只画出图形，还要设计公平的区域与判断规则。</figcaption></figure><figure><button class="pcard" type="button" data-cap="黄金数列"><img src="assets/project-golden-spiral.webp" alt="黄金数列完整作品案例" width="670" height="1200" loading="lazy" decoding="async"></button><figcaption><b>黄金数列</b>组织数列与绘图步骤，观察斐波那契数列与螺旋图形的联系。</figcaption></figure><figure><button class="pcard" type="button" data-cap="破敌制胜"><img src="assets/project-caesar-cipher.webp" alt="破敌制胜完整作品案例" width="670" height="1158" loading="lazy" decoding="async"></button><figcaption><b>破敌制胜</b>用字符串与条件判断实现凯撒密码，练习加密、解密与规则推理。</figcaption></figure></div><div class="project-controls"><button type="button" data-project-prev aria-label="上一个案例">‹</button><span data-project-count aria-live="polite">1 / 4</span><button type="button" data-project-next aria-label="下一个案例">›</button></div></div><div class="plain"><h3 class="pt">从“会用公式”，走向“知道为什么这样用”</h3><div class="pb">转盘分区需要考虑角度，结果的产生需要明确规则。孩子在设计、运行和修改中，把数学知识与真实任务连接起来，而不是只记一个答案。</div></div><div class="plain"><h3 class="pt">家长不用懂代码，也能看懂孩子有没有学进去</h3><div class="pb">请孩子演示作品，再问三句话：<b>你想完成什么？最难的地方怎么解决？如果改一个条件，会发生什么？</b><strong class="value-detail">能做出来、能解释、能修改</strong>，比只看画面是否漂亮，更能帮助您了解孩子的掌握情况。<br><br>同时<strong class="value-key">专属老师会定期反馈学习情况</strong>，让家长时刻知道我家孩子学得怎么样了，思维进步了没有，成绩提高了没有等等，直观得看到孩子的成长和进步！</div></div></div></section>
 
-    <!-- ===== 02 成长路径 ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">02 · 成长路径</span>
-        <h2>6 个月，<em>孩子会走到哪里</em></h2>
-        <p class="slead">每个阶段都有<b>看得见的成长和能力提升</b>——不是"学完了"，是"做出来了"。</p>
+<section class="slide" id="chapter-6"><div class="sbody"><h2>成绩、思维与升学，<em>看看真实变化</em></h2><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="数学113/120：孩子说，编程让我学会了检查"><img src="assets/feedback-math-113.webp" alt="数学113/120：孩子说，编程让我学会了检查" width="400" height="166" loading="lazy" decoding="async"></button><figcaption><b>数学113/120：孩子说，编程让我学会了检查</b>家长反馈中的实际分数为113/120；更值得关注的是孩子开始<strong class="value-detail">主动回看步骤、检查结果</strong>。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="期中考试进步：来自家长的观察"><img src="assets/feedback-exam-progress.webp" alt="期中考试进步：来自家长的观察" width="859" height="103" loading="lazy" decoding="async"></button><figcaption><b>期中考试进步：来自家长的观察</b>“孩子进步挺大的，应该也有这个编程课带来的进步。”</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="从等答案，到先自己想办法"><img src="assets/parent-feedback-independent.webp" alt="从等答案，到先自己想办法" width="717" height="115" loading="lazy" decoding="async"></button><figcaption><b>从等答案，到先自己想办法</b>遇到问题先尝试，解决不了再求助。编程中的调试，也是在练习找原因、改方法。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="学习15个月：独立思考与赛场成长"><img src="assets/growth-aild-progress.webp" alt="学习15个月：独立思考与赛场成长" width="1183" height="1347" loading="lazy" decoding="async"></button><figcaption><b>学习15个月：独立思考与赛场成长</b>这位Python学员从遇到问题依赖父母，到<strong class="value-detail">愿意尝试不同数学方法</strong>，并在教育部白名单赛事AILD复赛与全国决赛取得双金。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="重点中学录取"><img src="assets/admission-jiangsu-path.webp" alt="重点中学录取" width="970" height="300" loading="lazy" decoding="async"></button><figcaption><b>重点中学录取</b>江苏邳州学员凭程序设计一等奖、AILD复赛金牌等经历获得自主招生资格，通过学校专业测试后被录取。</figcaption></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="重点中学录取"><img src="assets/admission-guangxi-policy-conditions.webp" alt="重点中学录取" width="883" height="393" loading="lazy" decoding="async"></button><figcaption><b>重点中学录取</b>学员凭NCT Python二级证书及推荐材料申请科技特长生自主招生，经学校编程专业测试后被录取并进入英才班。</figcaption></figure></div><div class="plain"><h3 class="pt">科技特长怎么与升学相连</h3><div class="pb"><strong class="value-detail">考级+拿证</strong>，可以成为部分学校选拔中考察的简历和招生要求，适用于小升初、中考和高考。</div></div></div></section>
 
-        <div class="cols">
-          <div class="col hi">
-            <div class="col-h"><span class="cm">第 1-2 个月</span><span class="cn">打地基</span><span class="cd">约 20 课时</span></div>
-            <div class="col-b">
-              <div class="col-i"><div class="ck">核心训练</div><div class="cv">顺序、循环、<br>条件判断</div></div>
-              <div class="col-i"><div class="ck">阶段获得</div><div class="cv hl">NCT 一级证书</div></div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="col-h"><span class="cm">第 3-4 个月</span><span class="cn">搭框架</span><span class="cd">约 20 课时</span></div>
-            <div class="col-b">
-              <div class="col-i"><div class="ck">核心训练</div><div class="cv">函数封装、<br>数据结构入门</div></div>
-              <div class="col-i"><div class="ck">阶段获得</div><div class="cv hl">人工智能编创证书<br>+ 硬件作品</div></div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="col-h"><span class="cm">第 5-6 个月</span><span class="cn">出成果</span><span class="cd">约 20 课时<br>+ 10 次赛考集训</span></div>
-            <div class="col-b">
-              <div class="col-i"><div class="ck">核心训练</div><div class="cv">赛考真题集训、<br>答辩训练</div></div>
-              <div class="col-i"><div class="ck">阶段获得</div><div class="cv hl">NCT 二级证书<br>+ 白名单证书</div></div>
-            </div>
-          </div>
-        </div>
-
-        <img class="pic" src="assets/02-01.webp" alt="Python 科特班 6 个月学习规划" loading="lazy">
-      </div>
-    </section>
-
-    <!-- ===== 03 学习收获（原 06，2026-09-27 移到成长路径之后） ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">03 · 学习收获</span>
-        <h2>除了证书，<em>孩子还带走什么</em></h2>
-        <p class="slead">编程是载体，真正被改变的是孩子的思维方式，以及跨学科的基础。</p>
-
-        <div class="plain">
-          <div class="pt">七大核心能力，贯穿 6 个月</div>
-          <div class="tags">
-            <span class="tag">学习力</span><span class="tag">专注力</span><span class="tag">表达力</span>
-            <span class="tag">想象力</span><span class="tag">理解力</span><span class="tag">观察力</span>
-            <span class="tag">创造力</span>
-          </div>
-        </div>
-
-        <div class="plain">
-          <div class="pt">100+ 个小学初中数理知识点</div>
-          <div class="pb">坐标系、算数与几何图形、函数、中考英语……学校课堂上没吃透的概念，用编程再走一遍就通了。</div>
-        </div>
-
-        <div class="grid2">
-          <div class="stat"><div class="n">50<small>个</small></div><div class="t">项目产出（软件 + 硬件）</div></div>
-          <div class="stat"><div class="n">125<small>+题</small></div><div class="t">课后练习量</div></div>
-        </div>
-
-        <!-- 两张图并排按各自比例显示，不裁切、不轮播；点一下可放大看细节 -->
-        <div class="pic2" data-pics>
-          <button class="pcard" type="button" data-cap="Python 科特班 · 能让孩子收获什么（42 个软件项目 / 4 个硬件作品 / 100+ 知识点）">
-            <img src="assets/06-01.webp" alt="Python 科特班能让孩子收获什么" loading="lazy">
-          </button>
-          <button class="pcard" type="button" data-cap="科特班课程学习效果（8 项能力变化）">
-            <img src="assets/06-02.webp" alt="科特班课程学习效果" loading="lazy">
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 04 课程体系 ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">04 · 课程体系</span>
-        <h2>主修 + 赠送 + 硬件，<em>一条路径配齐</em></h2>
-        <p class="slead">不是零散买课，是一整套为"6 个月出成果"设计的培养体系。<b>每周 1 次课、每次 2 课时</b>，两课时可分两次上，时间自由选。</p>
-
-        <div class="grid3">
-          <div class="stat"><div class="n">60<small>课时</small></div><div class="t">主修 · 42 软件 + 8 硬件 + 10 赛考</div></div>
-          <div class="stat"><div class="n">62<small>节</small></div><div class="t">赠送 · 赛考 / 思维 / 直播 / 小灶</div></div>
-          <div class="stat"><div class="n">1<small>套</small></div><div class="t">专属硬件 · 寄送到家</div></div>
-        </div>
-
-        <div class="plain">
-          <div class="pt">赠送的 62 节课，具体是什么</div>
-          <div class="pb">
-            · 25 次课前真人直播<br>
-            · 10 节赛考主题辅导课<br>
-            · 2 次小灶直播课<br>
-            · 20 节思维强化拓展课<br>
-            · 5 节哈佛学霸家长指导课
-          </div>
-        </div>
-
-        <div class="plain">
-          <div class="pt">课前 · 课中 · 课后，三段式辅导</div>
-          <div class="pb">
-            <b>课前</b>｜25 次真人直播（每次 15 分钟），新知识先讲透，带着问题进课堂<br>
-            <b>课中</b>｜AI 互动实操，边做边学当天出作品；老师端监课系统随时发现问题<br>
-            <b>课后</b>｜1v1 视频 / 语音辅导，小班制，卡住立刻解决<br>
-            <b>练习</b>｜25 次课后作业 · 125+ 道练习题 · 200+ 道等考训练
-          </div>
-        </div>
-
-        <div class="alert">
-          <div class="hd">关于赛考培训</div>
-          <p>白名单赛事培训在市面上通常单独收费，<b>科特班已包含赛考集训，不再额外收取比赛培训费用</b>。主修 60 课时价值 4980 元、25 次课前真人直播价值 899 元、10 节赛考辅导价值 1399 元，均已包含在学费内。</p>
-        </div>
-
-        <!-- 循环滚动画廊（9 张）：加图/删图只改下面 .gl-track 里的 button，
-             每张必须写 style="--ar:图片宽÷高"，否则宽度会不对 -->
-        <div class="gallery" data-gallery>
-          <div class="gl-track">
-          <button class="gl-i" type="button" data-cap="L1–L4 四阶段能力进阶表（软件 + 硬件 + 学科融合）" style="--ar:0.2979">
-            <img src="assets/03-01.webp" alt="科特班 L1–L4 能力进阶表" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="配套价值 799 元 STEM 开源硬件课程套装（寄送到家）" style="--ar:1.0">
-            <img src="assets/03-02.webp" alt="STEM 开源硬件课程套装" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="4 个硬件编程作品：点阵屏 / 加速度计 / 光控 / 电路" style="--ar:0.3609">
-            <img src="assets/03-03.webp" alt="4 个硬件编程作品" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="科特班 · 科技特长生种子培养专项班级" style="--ar:0.5497">
-            <img src="assets/03-04.webp" alt="科特班课程总览" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="金牌名师赛考集训课 · 10 课时冲刺白名单赛事" style="--ar:0.3917">
-            <img src="assets/03-05.webp" alt="金牌名师赛考集训课" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="赛考主题辅导课 · 赛事规划与考点精讲" style="--ar:0.463">
-            <img src="assets/03-06.webp" alt="赛考主题辅导课" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="哈佛学霸家长指导课 · 5 节（家长专属）" style="--ar:0.5625">
-            <img src="assets/03-07.webp" alt="哈佛学霸家长指导课" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="思维强化拓展课 · 20 节（学科融合）" style="--ar:0.2963">
-            <img src="assets/03-08.webp" alt="思维拓展强化课" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="名师直播小灶课 · 2 次（英才计划专属）" style="--ar:0.3531">
-            <img src="assets/03-09.webp" alt="名师直播小灶课" loading="lazy">
-          </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 05 师资力量 ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">05 · 师资力量</span>
-        <h2>2000+ 名教师中，<em>选拔前 5%</em></h2>
-        <p class="slead">与北京大学软件工程国家工程研究中心<b>联合共建教研体系</b>；教研团队由<b>哈佛、港大教育学硕博</b>领衔，课程标准和人才培养通道直接对接。</p>
+<section class="slide" id="chapter-7"><div class="sbody"><h2>师资力量</h2><p class="slead">教研团队决定课程怎样设计，辅导老师陪孩子把每一步学扎实。两者配合，让孩子<strong class="value-detail">遇到困难时有人指导</strong>，<strong class="value-detail">让家长了解学习进展</strong>。</p><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="专家教研团队，为课程设计提供支持"><img src="assets/04-01.webp" alt="专家教研团队，为课程设计提供支持" width="1000" height="894" loading="lazy" decoding="async"></button></figure></div><div class="faculty-selection-summary"><h3 class="faculty-selection-title">2000+ 名教师中，<em>选拔前 5%</em></h3>
+        <p class="slead">与北京大学软件工程国家工程研究中心<b>联合共建教研体系</b>；教研团队由<b>哈佛、清华、北大、港大等教育学硕博</b>领衔，课程标准和人才培养通道直接对接。</p>
 
         <div class="grid4">
           <div class="stat"><div class="n">前5%</div><div class="t">教师选拔比例</div></div>
@@ -1060,37 +991,14 @@ body.has-live.at-live .sbody{padding-bottom:96px}
         </div>
 
         <div class="tagline" style="background:var(--blue-soft);border-radius:14px;padding:15px 17px;font-size:13.5px;color:var(--ink-2);line-height:1.8">
-          每一位授课老师都经过 <b style="color:var(--blue)">2000+ 候选人筛选体系</b>，并通过北大共建的教研培训认证。
+          每一位授课老师都经过 <b style="color:var(--blue)">2000+ 候选人筛选体系</b>，并通过<strong class="value-key">北大共建的教研培训认证</strong>。
         </div>
 
-        <!-- 循环滚动画廊（5 张） -->
-        <div class="gallery" data-gallery>
-          <div class="gl-track">
-          <button class="gl-i" type="button" data-cap="国际信奥赛（IOI）主席 & 北大专家联袂指导" style="--ar:1.1192">
-            <img src="assets/04-01.webp" alt="IOI 主席与北大专家联袂指导" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="编程猫老师获北大官方认证（骨干教师研修班结业）" style="--ar:0.5625">
-            <img src="assets/04-02.webp" alt="编程猫老师获北大官方认证" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="教学服务全流程：开学典礼 → 课前直播 → 课中监测 → 课后反馈 → 阶段测评" style="--ar:0.6745">
-            <img src="assets/04-03.webp" alt="科特班教学服务流程" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="赛考服务：金牌名师集训 + 真人直播小灶课" style="--ar:0.7376">
-            <img src="assets/04-04.webp" alt="科特班赛考服务" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="多层严苛筛选 · 北大认证高阶师资" style="--ar:0.5231">
-            <img src="assets/04-05.webp" alt="北大认证高阶师资" loading="lazy">
-          </button>
-          </div>
-        </div>
-      </div>
-    </section>
+        </div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="专项培训与教研支持，落实到日常教学"><img src="assets/04-02.webp" alt="专项培训与教研支持，落实到日常教学" width="700" height="1244" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="全名师阵容"><img src="assets/faculty-lineup-current.webp" alt="全名师阵容" width="750" height="3746" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="专业老师全程保驾护航"><img src="assets/faculty-service-current.webp" alt="专业老师全程保驾护航" width="981" height="679" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="编程猫五轮严选教学老师"><img src="assets/faculty-selection-current.webp" alt="编程猫五轮严选教学老师" width="2405" height="1598" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="从开学到阶段测评，辅导贯穿学习过程"><img src="assets/04-03.webp" alt="从开学到阶段测评，辅导贯穿学习过程" width="700" height="1038" loading="lazy" decoding="async"></button></figure></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="真人老师在线伴学系统"><img src="assets/faculty-companion-current.webp" alt="真人老师在线伴学系统" width="1242" height="4033" loading="lazy" decoding="async"></button></figure></div></div></section>
 
-    <!-- ===== 06 赛考规划 ===== -->
-    <section class="slide">
-      <div class="sbody">
-        <span class="stag">06 · 赛考规划</span>
-        <h2>三张国家级证书，<em>什么时候拿到</em></h2>
+<section class="slide" id="chapter-8"><div class="sbody"><h2>赛考有人规划，<em>备考有人陪练</em></h2><p class="slead">从什么时候准备、练哪些内容，到报名与考前模拟，不让家庭只拿到一个目标，却不知道下一步怎么做。<strong class="value-key">不让家长麻烦，就能让孩子拿到结果</strong>。</p><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="名师集训与专项辅导，围绕目标准备"><img src="assets/04-04.webp" alt="名师集训与专项辅导，围绕目标准备" width="700" height="949" loading="lazy" decoding="async"></button><figcaption><b>名师集训与专项辅导，围绕目标准备</b>主修含<strong class="value-detail">10课时名师赛考集训</strong>，配套<strong class="value-detail">2节真人直播小灶</strong>，帮助梳理知识、发现薄弱点。</figcaption></figure></div><div class="plain"><h3 class="pt">把赛考准备拆成家长看得懂的步骤</h3><div class="pb"><b>先规划</b>｜结合孩子学习进度与当期赛考安排，了解等级、赛项和报名条件。<br><b>再练习</b>｜课中答题、课后专项训练与考点资料配合，围绕薄弱点巩固。<br><b>做模拟</b>｜配套2套NCT等考模拟卷，熟悉题型与考场节奏，复盘错题。<br><b>有协助</b>｜提供报名指引、设备调试、成绩查询与证书相关服务。</div></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="编程练思维，赛考练综合运用"><img src="assets/05-03.webp" alt="编程练思维，赛考练综合运用" width="700" height="912" loading="lazy" decoding="async"></button><figcaption><b>编程练思维，赛考练综合运用</b>分析问题、设计算法、编写程序、调试测试，再通过考点精讲、赛场模拟和专项练习检验掌握情况。</figcaption></figure></div></div></section>
+
+<section class="slide" id="chapter-9"><div class="sbody"><h2>三张国家级证书，<em>什么时候拿到</em></h2>
         <p class="slead">每一步都有明确的时间点，不是为了拿证而拿证，是能力的阶段性验证。</p>
 
         <div class="grid3">
@@ -1117,50 +1025,28 @@ body.has-live.at-live .sbody{padding-bottom:96px}
           </div>
         </div>
 
-        <div class="plain">
-          <div class="pt">这些证书意味着什么</div>
-          <div class="pb">在多地可认定<b>科技特长生</b>；白名单赛事证书 → 属于教育部认可名单，可作为综合素质评价材料。</div>
-        </div>
+        <div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="学习半年冲3张国家级证书"><img src="assets/05-01.webp" alt="学习半年冲3张国家级证书" width="1000" height="704" loading="lazy" decoding="async"></button></figure></div><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="NCT证书：对应一级、二级阶段目标"><img src="assets/certificate-nct-sample.webp" alt="NCT证书：对应一级、二级阶段目标" loading="lazy" decoding="async" width="1800" height="1336"></button><figcaption><b>NCT证书：对应一级、二级阶段目标</b><strong class="value-detail">通过等级考级后取得证书</strong></figcaption></figure></div><div class="certificate-grid"><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="全国青少年劳动技能与智能设计大赛"><img src="assets/certificate-aild.webp" alt="全国青少年劳动技能与智能设计大赛" loading="lazy" decoding="async" width="839" height="1206"></button><figcaption><b>全国青少年劳动技能与智能设计大赛</b></figcaption></figure></div><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="全球发明大会中国区"><img src="assets/certificate-icc.webp" alt="全球发明大会中国区" loading="lazy" decoding="async" width="1280" height="1810"></button><figcaption><b>全球发明大会中国区</b></figcaption></figure></div><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="世界机器人大赛相关赛项"><img src="assets/certificate-wrc.webp" alt="世界机器人大赛相关赛项" loading="lazy" decoding="async" width="900" height="1213"></button><figcaption><b>世界机器人大赛相关赛项</b></figcaption></figure></div><div class="story-media " data-pics><figure><button class="pcard" type="button" data-cap="北部湾人工智能教育大赛"><img src="assets/certificate-guangxi.webp" alt="北部湾人工智能教育大赛" loading="lazy" decoding="async" width="1201" height="871"></button><figcaption><b>北部湾人工智能教育大赛</b></figcaption></figure></div></div><div class="plain"><h3 class="pt">教育部白名单赛事</h3><div class="pb">编程猫统一组织，获奖率高达97%，冲刺科技特长生证明，<strong class="value-key">不收取费用</strong></div></div><div class="story-media" data-pics><figure><button class="pcard" type="button" data-cap="六个月学习与赛考规划"><img src="assets/05-02.webp" alt="六个月学习与赛考规划" width="1000" height="1080" loading="lazy" decoding="async"></button></figure></div><div class="growth-play"><button type="button" class="growth-btn" data-increment="国家级证书+1本">拿证升学<span aria-hidden="true"> ＋</span></button><div class="growth-floats" aria-hidden="true"></div></div></div></section>
 
-        <!-- 循环滚动画廊（3 张） -->
-        <div class="gallery" data-gallery>
-          <div class="gl-track">
-          <button class="gl-i" type="button" data-cap="学习半年冲 3 张国家级证书：NCT 一级 / 二级 + 白名单赛事" style="--ar:1.4215">
-            <img src="assets/05-01.webp" alt="学习半年冲 3 张国家级证书" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="Python 进阶科特班月度计划（6 个月逐月目标与考点）" style="--ar:0.9264">
-            <img src="assets/05-02.webp" alt="科特班月度学习计划" loading="lazy">
-          </button>
-          <button class="gl-i" type="button" data-cap="赛考金牌选手如何养成：编程创作 + 赛考备战双线" style="--ar:0.7672">
-            <img src="assets/05-03.webp" alt="赛考金牌选手养成路径" loading="lazy">
-          </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 07 品牌实力（深色） ===== -->
-    <section class="slide dark">
+<section class="slide dark" id="chapter-10">
       <div class="sbody">
-        <span class="stag">07 · 品牌实力</span>
+        <span class="stag">10 · 品牌实力</span>
         <h2>谁在支撑这条路</h2>
         <p class="slead">11 年教研积累、北大联合培养体系、可查证的赛事成果。</p>
 
         <!-- 机构背书 logo 条（放在标题区正下方）-->
         <div class="orgs">
-          <img src="assets/logo-orgs.webp" alt="编程猫 · 北京大学 · 联合国教科文组织 · 国际信息学奥林匹克竞赛" loading="lazy">
+          <img src="assets/logo-orgs.webp" alt="编程猫 · 北京大学 · 联合国教科文组织 · 国际信息学奥林匹克竞赛" loading="lazy" width="1600" height="315">
         </div>
 
         <!-- 部级精品课荣誉卡 -->
         <div class="award">
           <div class="aw-t">教育部认定</div>
           <div class="aw-h">课程获评教育部<b>"部级精品课"</b></div>
-          <div class="aw-d">编程猫研制课程《让 Flappy Bird 自己飞》入选教育部 2023 年"基础教育精品课"（实验教学类）"部级精品课"名单。</div>
         </div>
 
         <div class="plain pku-card">
-          <div class="pt">2026 年 3 月起 · 进入北京大学人才培养体系</div>
-          <div class="pb">与北京大学软件工程国家工程研究中心联合共建，课程体系、教研标准与人才培养通道直接对接。</div>
+          <div class="pt">进入北京大学人才培养体系</div>
+          <div class="pb"><strong class="value-key">点猫科技与北京大学共建人工智能联合实验室</strong>，课程体系、教研标准与人才培养通道直接对接。</div>
         </div>
 
         <div class="dgrid">
@@ -1180,59 +1066,154 @@ body.has-live.at-live .sbody{padding-bottom:96px}
         </div>
 
         <div style="height:16px"></div>
-        <!-- 循环滚动画廊（13 张品牌物料）-->
+        <!-- 循环滚动画廊（45 张品牌物料）-->
         <div class="gallery" data-gallery>
-          <div class="gl-track">
+          <div class="gl-track" style="animation-duration:132s">
           <button class="gl-i" type="button" data-cap="累计用户数 4300 万 · 中国少儿编程教育品牌第一" style="--ar:0.5922">
-            <img src="assets/07-01.webp" alt="编程猫累计用户数 4300 万" loading="lazy">
+            <img src="assets/07-01.webp" alt="编程猫累计用户数 4300 万" loading="lazy" width="700" height="1182">
           </button>
           <button class="gl-i" type="button" data-cap="中国少儿编程在线教育开创者（沙利文市场地位声明）" style="--ar:0.6">
-            <img src="assets/07-02.webp" alt="中国少儿编程在线教育开创者" loading="lazy">
+            <img src="assets/07-02.webp" alt="中国少儿编程在线教育开创者" loading="lazy" width="700" height="1167">
           </button>
           <button class="gl-i" type="button" data-cap="家长首选的少儿编程教育品牌（CIC 灼识市场地位确认）" style="--ar:0.7068">
-            <img src="assets/07-03.webp" alt="家长首选的少儿编程教育品牌" loading="lazy">
+            <img src="assets/07-03.webp" alt="家长首选的少儿编程教育品牌" loading="lazy" width="700" height="990">
           </button>
           <button class="gl-i" type="button" data-cap="国际信奥赛（IOI）主席 & 北大专家联袂指导" style="--ar:1.1192">
-            <img src="assets/07-04.webp" alt="IOI 主席与北大专家联袂指导" loading="lazy">
+            <img src="assets/07-04.webp" alt="IOI 主席与北大专家联袂指导" loading="lazy" width="1000" height="894">
           </button>
           <button class="gl-i" type="button" data-cap="信息学奥赛教学研修分享会 · 全体教师结业持证" style="--ar:1.5">
-            <img src="assets/07-05.webp" alt="信息学奥赛教学研修分享会" loading="lazy">
+            <img src="assets/07-05.webp" alt="信息学奥赛教学研修分享会" loading="lazy" width="1000" height="667">
           </button>
           <button class="gl-i" type="button" data-cap="编程猫荣获六大权威认证" style="--ar:0.5614">
-            <img src="assets/07-06.webp" alt="编程猫六大权威认证" loading="lazy">
+            <img src="assets/07-06.webp" alt="编程猫六大权威认证" loading="lazy" width="645" height="1149">
           </button>
           <button class="gl-i" type="button" data-cap="编程猫 × UNESCO 十年战略合作续约（合作周期达 16 年）" style="--ar:0.5625">
-            <img src="assets/07-07.webp" alt="编程猫与联合国教科文组织续约" loading="lazy">
+            <img src="assets/07-07.webp" alt="编程猫与联合国教科文组织续约" loading="lazy" width="700" height="1244">
           </button>
           <button class="gl-i" type="button" data-cap="教育部教育技术与资源发展中心 · 战略合作签约" style="--ar:1.6495">
-            <img src="assets/07-08.webp" alt="教育部战略合作签约仪式" loading="lazy">
+            <img src="assets/07-08.webp" alt="教育部战略合作签约仪式" loading="lazy" width="1000" height="606">
           </button>
           <button class="gl-i" type="button" data-cap="中国计算机学会（CCF）金质合作伙伴" style="--ar:0.7068">
-            <img src="assets/07-09.webp" alt="中国计算机学会合作伙伴证书" loading="lazy">
+            <img src="assets/07-09.webp" alt="中国计算机学会合作伙伴证书" loading="lazy" width="700" height="990">
           </button>
           <button class="gl-i" type="button" data-cap="NCT 等考累计冲考 81 万人 · 通过人数行业第一" style="--ar:0.5625">
-            <img src="assets/07-10.webp" alt="NCT 等考成绩单" loading="lazy">
+            <img src="assets/07-10.webp" alt="NCT 等考成绩单" loading="lazy" width="700" height="1244">
           </button>
           <button class="gl-i" type="button" data-cap="白名单赛事累计 11 万人获奖 / 晋级" style="--ar:0.562">
-            <img src="assets/07-11.webp" alt="白名单赛事成绩单" loading="lazy">
+            <img src="assets/07-11.webp" alt="白名单赛事成绩单" loading="lazy" width="700" height="1246">
           </button>
-          <button class="gl-i" type="button" data-cap="课程获评教育部"部级精品课"" style="--ar:0.6">
-            <img src="assets/07-12.webp" alt="编程猫好课获评部级精品课" loading="lazy">
+          <button class="gl-i" type="button" data-cap="课程获评教育部&quot;部级精品课&quot;" style="--ar:0.6">
+            <img src="assets/07-12.webp" alt="编程猫好课获评部级精品课" loading="lazy" width="700" height="1167">
           </button>
           <button class="gl-i" type="button" data-cap="全面助力 70,000+ 所中小学校开展人工智能编程教育" style="--ar:0.6">
-            <img src="assets/07-13.webp" alt="编程猫助力 7 万所学校" loading="lazy">
+            <img src="assets/07-13.webp" alt="编程猫助力 7 万所学校" loading="lazy" width="700" height="1167">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫软件使用与赛事支持" style="--ar:0.7072">
+            <img src="assets/brand-5058.webp" alt="编程猫软件使用与赛事支持" loading="lazy" width="1000" height="1414">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫软件使用与赛事支持" style="--ar:0.6002">
+            <img src="assets/brand-5057.webp" alt="编程猫软件使用与赛事支持" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="NOI-历年累计" style="--ar:0.5624">
+            <img src="assets/brand-5061.webp" alt="NOI-历年累计" loading="lazy" width="1000" height="1778">
+          </button>
+          <button class="gl-i" type="button" data-cap="NOI-2026（含海外）" style="--ar:0.5631">
+            <img src="assets/brand-5060.webp" alt="NOI-2026（含海外）" loading="lazy" width="1000" height="1776">
+          </button>
+          <button class="gl-i" type="button" data-cap="NOI-2026" style="--ar:0.5615">
+            <img src="assets/brand-5059.webp" alt="NOI-2026" loading="lazy" width="1000" height="1781">
+          </button>
+          <button class="gl-i" type="button" data-cap="行业开创者-排行榜" style="--ar:0.5999">
+            <img src="assets/brand-5111.webp" alt="行业开创者-排行榜" loading="lazy" width="1000" height="1667">
+          </button>
+          <button class="gl-i" type="button" data-cap="连续2年获评独角兽企业" style="--ar:0.5624">
+            <img src="assets/brand-5071.webp" alt="连续2年获评独角兽企业" loading="lazy" width="1000" height="1778">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫用户规模" style="--ar:0.7067">
+            <img src="assets/brand-5067.webp" alt="编程猫用户规模" loading="lazy" width="1000" height="1415">
+          </button>
+          <button class="gl-i" type="button" data-cap="知识产权" style="--ar:0.6002">
+            <img src="assets/brand-5077.webp" alt="知识产权" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫教材实力" style="--ar:0.6002">
+            <img src="assets/brand-5076.webp" alt="编程猫教材实力" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫教材实力" style="--ar:0.5992">
+            <img src="assets/brand-5075.webp" alt="编程猫教材实力" loading="lazy" width="1000" height="1669">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫教材实力" style="--ar:0.6002">
+            <img src="assets/brand-5074.webp" alt="编程猫教材实力" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫教材实力" style="--ar:0.5992">
+            <img src="assets/brand-5073.webp" alt="编程猫教材实力" loading="lazy" width="1000" height="1669">
+          </button>
+          <button class="gl-i" type="button" data-cap="北大赋能型教师" style="--ar:0.5401">
+            <img src="assets/brand-5187.webp" alt="北大赋能型教师" loading="lazy" width="599" height="1109">
+          </button>
+          <button class="gl-i" type="button" data-cap="北大研修" style="--ar:0.5624">
+            <img src="assets/brand-5079.webp" alt="北大研修" loading="lazy" width="1000" height="1778">
+          </button>
+          <button class="gl-i" type="button" data-cap="融资规模" style="--ar:0.6002">
+            <img src="assets/brand-5083.webp" alt="融资规模" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="办学许可" style="--ar:1.4144">
+            <img src="assets/brand-5082.webp" alt="办学许可" loading="lazy" width="1000" height="707">
+          </button>
+          <button class="gl-i" type="button" data-cap="公司实力" style="--ar:0.5612">
+            <img src="assets/brand-5081.webp" alt="公司实力" loading="lazy" width="1000" height="1782">
+          </button>
+          <button class="gl-i" type="button" data-cap="公司地址" style="--ar:0.5624">
+            <img src="assets/brand-5080.webp" alt="公司地址" loading="lazy" width="1000" height="1778">
+          </button>
+          <button class="gl-i" type="button" data-cap="点猫科技（编程猫）与宇树科技达成战略合作" style="--ar:0.5617">
+            <img src="assets/brand-6088.webp" alt="点猫科技（编程猫）与宇树科技达成战略合作" loading="lazy" width="637" height="1134">
+          </button>
+          <button class="gl-i" type="button" data-cap="编程猫六大官方合作伙伴" style="--ar:0.5609">
+            <img src="assets/brand-5209.webp" alt="编程猫六大官方合作伙伴" loading="lazy" width="1000" height="1783">
+          </button>
+          <button class="gl-i" type="button" data-cap="国际信奥赛（IOI）" style="--ar:0.5999">
+            <img src="assets/brand-5088.webp" alt="国际信奥赛（IOI）" loading="lazy" width="1000" height="1667">
+          </button>
+          <button class="gl-i" type="button" data-cap="北京大学联合教研合作" style="--ar:1.3210">
+            <img src="assets/brand-5087.webp" alt="北京大学联合教研合作" loading="lazy" width="1000" height="757">
+          </button>
+          <button class="gl-i" type="button" data-cap="学编程-就选北大合作品牌" style="--ar:0.5615">
+            <img src="assets/brand-5119.webp" alt="学编程-就选北大合作品牌" loading="lazy" width="1000" height="1781">
+          </button>
+          <button class="gl-i" type="button" data-cap="中国人工智能学会（CAAI）" style="--ar:1.5015">
+            <img src="assets/brand-5084.webp" alt="中国人工智能学会（CAAI）" loading="lazy" width="1000" height="666">
+          </button>
+          <button class="gl-i" type="button" data-cap="年度科技创新影响力教育品牌" style="--ar:1.5038">
+            <img src="assets/brand-5097.webp" alt="年度科技创新影响力教育品牌" loading="lazy" width="1000" height="665">
+          </button>
+          <button class="gl-i" type="button" data-cap="IDC中国未来企业大奖" style="--ar:1.4993">
+            <img src="assets/brand-5092.webp" alt="IDC中国未来企业大奖" loading="lazy" width="1000" height="667">
+          </button>
+          <button class="gl-i" type="button" data-cap="年度AI教育影响力品牌" style="--ar:0.6002">
+            <img src="assets/brand-5096.webp" alt="年度AI教育影响力品牌" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="年度AI人工智能影响力教育品牌" style="--ar:1.4993">
+            <img src="assets/brand-5095.webp" alt="年度AI人工智能影响力教育品牌" loading="lazy" width="1000" height="667">
+          </button>
+          <button class="gl-i" type="button" data-cap="IDC中国未来企业大奖" style="--ar:0.6002">
+            <img src="assets/brand-5091.webp" alt="IDC中国未来企业大奖" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="全球第一" style="--ar:0.6002">
+            <img src="assets/brand-5094.webp" alt="全球第一" loading="lazy" width="1000" height="1666">
+          </button>
+          <button class="gl-i" type="button" data-cap="人工智能最高荣誉" style="--ar:0.7502">
+            <img src="assets/brand-5093.webp" alt="人工智能最高荣誉" loading="lazy" width="1000" height="1333">
           </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== 08 报名福利（默认会被脚本移除，链接带 ?price=1 才出现） ===== -->
-    <section class="slide" id="slideQuote">
+<section class="slide" id="slideQuote">
       <div class="sbody">
-        <span class="stag">08 · 直播间专享</span>
-        <h2><span class="qn">今晚 19:00</span><em>直播间开抢名额</em></h2>
-        <p class="slead">开播即开放报名 —— 本期仅招 <b>30&nbsp;人</b>，先到先得，报满即止。</p>
+        <span class="stag">11 · 购课权益</span>
+        <h2><span class="qn">今晚 19:00</span><em>官方直播间开抢名额</em></h2>
+        <p class="slead">开播10分钟后开放报名入学 —— 仅招<b>30人</b></p>
 
         <!-- ② 直播间专享：与下面「报名即得」的常规权益明确分开，回答"我为什么要进直播间"
              ★ 抽奖一律写「下单即获得参与资格」，不写中奖概率 / 不写某个时点更容易中（合规 + 促早）。 -->
@@ -1248,7 +1229,7 @@ body.has-live.at-live .sbody{padding-bottom:96px}
           </div>
           <div class="qex-i">
             <div class="qex-ico">叁</div>
-            <div class="qex-tx"><b>1000 元超级补贴</b></div>
+            <div class="qex-tx"><b>1000元奖学金</b></div>
           </div>
           <div class="qex-foot">以上三项<b>仅限直播间下单</b> · 奖品与名额以现场公布为准</div>
         </div>
@@ -1259,7 +1240,30 @@ body.has-live.at-live .sbody{padding-bottom:96px}
              位置＝直播间专享之后、价格之前：家长刚看完"进直播间才有这三项"，
              先给资金监管 + 退费这两重保障，再看价格。
              ⚠️ 折叠内容仍是页面原生卡片，无 .pcard → 不加 data-pics。 -->
-        <div class="qfold" id="qFold">
+
+
+        <!-- ③ 价格：位置后移，且改称「直播间专享价」—— 价格本身成为去直播间的理由 -->
+        <div class="qhero">
+          <span class="qtag">直播间专享价</span>
+          <span class="qcpwrap"><img class="qcp" src="assets/q-coupon.webp" alt="1000元优惠券" width="814" height="391" loading="lazy"><i class="qcshine" aria-hidden="true"></i></span>
+          <div class="qline">
+            <span class="qold">原价 <s>¥4980</s></span>
+            <span class="qcut">奖学金抵扣1000元</span>
+          </div>
+          <div class="qfinal"><small>¥</small>3980</div>
+          <div class="qsub">6 个月完整周期 · 主修 60 课时 + 赠送 62 节，报名即得</div>
+          <div class="qbadges">
+            <div class="qbadge">每班仅招 30 人<i>招满即关班</i></div>
+            <div class="qbadge">前 8 课时试学<i>退费细则见购课保障</i></div>
+          </div>
+          <!-- 2026-09-29 22:30 Vincent：「这一页放在这个下面」→ 原「本期超级补贴」卡里的明细挪到这里 -->
+          <ul class="qul qhl">
+            <li>6 个月完整周期，主修 <b>60 课时</b>（42 软件 + 8 硬件 + 10 赛考），价值 4980 元</li>
+            <li>随课赠送 <b>62 节</b>配套课：25 节课前真人直播（价值 899 元）+ 10 节赛考主题辅导（价值 1399 元）+ 2 节小灶直播 + 20 节思维强化拓展 + 5 节哈佛学霸家长指导</li>
+            <li>专属 STEM 硬件套装 <b>1 套</b>（价值 799 元），寄送到家</li>
+          </ul>
+        </div>
+<div class="qfold" id="qFold">
 
           <!-- ① 资金监管（09-29 新增；22:23 Vincent 要求与「本期超级补贴」对换位置 → 现在排第一张）。
                口径：编程猫已接入教育部资金监管账户，依据教育部等六部门《关于加强校外培训机构
@@ -1273,7 +1277,7 @@ body.has-live.at-live .sbody{padding-bottom:96px}
             </div>
             <ul class="qul">
               <li>编程猫已接入教育部资金监管账户，严格响应教育部等六部门《关于加强校外培训机构预收费监管工作的通知》。</li>
-              <li>学费不直接划入机构账户，由监管账户<b>按学习进度划扣</b>，从制度上防范“退费难”“卷钱跑路”。</li>
+              <li>学费不直接划入机构账户，由<strong class="value-key">教育部监管账户划扣</strong>，<strong class="value-detail">从制度上保障了资金安全</strong></li>
             </ul>
             <div class="qg-badges"><span>合规办学</span><span>安心选课</span><span>全力保障学员权益</span></div>
           </div>
@@ -1285,7 +1289,6 @@ body.has-live.at-live .sbody{padding-bottom:96px}
               <li><b>解锁第 9 课时起</b>：试学期结束，按已解锁课时数扣除课时费。<br>
                   单节课时费 =（实际支付金额 − 硬件套装价格）÷ 总课时数。</li>
               <li>硬件套装已寄出且已拆封：需同步扣除硬件套装费用；未拆塑封可联系班主任自行寄回（邮费自理），寄回后不扣相应费用。</li>
-              <li>实际退费金额 = 实际支付金额 − 单节课时费 × 已解锁课时数量 − 硬件套装费用（如有）− 扣除项目（含但不限于发票税款等），详情见正式合同。</li>
             </ul>
           </div>
 
@@ -1295,108 +1298,79 @@ body.has-live.at-live .sbody{padding-bottom:96px}
 
         </div>
 
-        <!-- ③ 价格：位置后移，且改称「直播间专享价」—— 价格本身成为去直播间的理由 -->
-        <div class="qhero">
-          <span class="qtag">直播间专享价</span>
-          <span class="qcpwrap">
-            <img class="qcp" src="assets/q-coupon.webp" alt="1000 元超级补贴优惠券" loading="lazy">
-            <i class="qcshine" aria-hidden="true"></i>
-          </span>
-          <div class="qline">
-            <span class="qold">原价 <s>¥4980</s></span>
-            <span class="qcut">立减 1000 元</span>
-          </div>
-          <div class="qfinal"><small>¥</small>3980</div>
-          <div class="qsub">6 个月完整周期 · 主修 60 课时 + 赠送 62 节，报名即得</div>
-          <div class="qbadges">
-            <div class="qbadge">每班仅招 30 人<i>招满即关班</i></div>
-            <div class="qbadge">前 8 课时试学<i>不满意全额退</i></div>
-          </div>
-          <!-- 2026-09-29 22:30 Vincent：「这一页放在这个下面」→ 原「本期超级补贴」卡里的明细挪到这里 -->
-          <ul class="qul qhl">
-            <li>6 个月完整周期，主修 <b>60 课时</b>（42 软件 + 8 硬件 + 10 赛考），价值 4980 元</li>
-            <li>随课赠送 <b>62 节</b>配套课：25 次课前真人直播（价值 899 元）+ 10 节赛考主题辅导（价值 1399 元）+ 2 次小灶直播 + 20 节思维强化拓展 + 5 节哈佛学霸家长指导</li>
-            <li>专属 STEM 硬件套装 <b>1 套</b>（价值 799 元），寄送到家</li>
-          </ul>
-        </div>
-
         <!-- ④ 常规权益：标题从「仅限前 30 名」改成「报名即得」——
              稀缺感交给上面的直播间区块，这里是"报名就一定有的"，语义不再打架 -->
         <div class="qcap">报名即得 · <em>10 大福利</em></div>
         <div class="gallery qgal" data-gallery>
           <div class="gl-track">
-            <button class="gl-i" type="button" data-cap="福利一 · 2 套 NCT 等考模拟卷" style="--ar:0.9283"><img src="assets/q-f1.webp" alt="福利一 2套NCT等考模拟卷" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利二 · 立减优惠券 1000 元" style="--ar:0.9283"><img src="assets/q-f2.webp" alt="福利二 立减优惠券1000元" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利三 · 25 节课前真人直播（趣味科普 &amp; 互动答疑）" style="--ar:0.9283"><img src="assets/q-f3.webp" alt="福利三 25节课前真人直播" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利四 · 20 节思维强化拓展课" style="--ar:0.9283"><img src="assets/q-f4.webp" alt="福利四 20节思维强化拓展课" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利五 · 10 节赛考主题辅导课" style="--ar:0.9283"><img src="assets/q-f5.webp" alt="福利五 10节赛考主题辅导课" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利六 · 5 次哈佛学霸家长指导课" style="--ar:0.9283"><img src="assets/q-f6.webp" alt="福利六 5次哈佛学霸家长指导课" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利七 · 编程等考核心考点掌中宝（电子资料包）" style="--ar:0.9283"><img src="assets/q-f7.webp" alt="福利七 编程等考核心考点掌中宝" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利八 · 编程猫限量毛绒公仔（价值 ¥98）" style="--ar:0.9283"><img src="assets/q-f8.webp" alt="福利八 编程猫限量毛绒公仔" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利九 · 进阶课全套电子教材" style="--ar:0.9283"><img src="assets/q-f9.webp" alt="福利九 进阶课全套电子教材" loading="lazy"></button>
-            <button class="gl-i" type="button" data-cap="福利十 · 解锁前 8 课时试学（不满意全额退款）" style="--ar:0.9283"><img src="assets/q-f10.webp" alt="福利十 解锁前8课时试学" loading="lazy"></button>
+            <button class="gl-i" type="button" data-cap="福利一 · 2 套 NCT 等考模拟卷" style="--ar:0.9283"><img src="assets/q-f1.webp" alt="福利一 2套NCT等考模拟卷" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利二 · 立减优惠券 1000 元" style="--ar:0.9283"><img src="assets/q-f2.webp" alt="福利二 立减优惠券1000元" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利三 · 25 节课前真人直播（趣味科普 &amp; 互动答疑）" style="--ar:0.9283"><img src="assets/q-f3.webp" alt="福利三 25节课前真人直播" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利四 · 20 节思维强化拓展课" style="--ar:0.9283"><img src="assets/q-f4.webp" alt="福利四 20节思维强化拓展课" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利五 · 10 节赛考主题辅导课" style="--ar:0.9283"><img src="assets/q-f5.webp" alt="福利五 10节赛考主题辅导课" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利六 · 5 节哈佛学霸家长指导课" style="--ar:0.9283"><img src="assets/q-f6.webp" alt="福利六 5节哈佛学霸家长指导课" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利七 · 编程等考核心考点掌中宝（电子资料包）" style="--ar:0.9283"><img src="assets/q-f7.webp" alt="福利七 编程等考核心考点掌中宝" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利八 · 编程猫限量毛绒公仔（价值 ¥98）" style="--ar:0.9283"><img src="assets/q-f8.webp" alt="福利八 编程猫限量毛绒公仔" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利九 · 进阶课全套电子教材" style="--ar:0.9283"><img src="assets/q-f9.webp" alt="福利九 进阶课全套电子教材" loading="lazy" width="492" height="530"></button>
+            <button class="gl-i" type="button" data-cap="福利十 · 解锁前 8 课时试学（不满意全额退款）" style="--ar:0.9283"><img src="assets/q-f10.webp" alt="福利十 解锁前8课时试学" loading="lazy" width="492" height="530"></button>
           </div>
         </div>
-        <div class="qhint"><b>10 项福利自动轮播中</b> · 点击任意一项可放大查看</div>
 
         <div class="qlive" id="qLive">
           <div class="qrow1">
-            <div class="qclock"><b>19:00</b><i>开抢</i></div>
+            <button class="qclock" type="button" aria-label="19:00 开抢，播放音效"><b>19:00</b><i>开抢</i></button>
             <div class="qtxt">
-              <h3>今晚 <em>19:00</em> 开播即开抢</h3>
-              <p>开播即开放报名 · 现场抽平板、抽免单，30 个名额先到先得<br>直播间下单才能锁定补贴与抽奖资格</p>
+              <h3>今晚19:00直播间邀请北大老师，现场抽平板和免单</h3>
+              <p>30 个名额先到先得<br><strong class="value-detail">直播间报名才能锁定奖学金与抽奖资格</strong></p>
             </div>
           </div>
-          <button class="qgo" type="button" id="qLiveBtn">今晚 19:00 直播间抢免单、平板、入学名额！</button>
+
         </div>
 
         <div class="qnote">直播间入口与报名方式，请联系班主任老师。<br>福利与退款规则以正式合同为准。</div>
       </div>
     </section>
-
   </div>
 </div>
 
 <script>
-/* 报价版开关：链接带 ?price=1 才保留第 08 页；否则整页连同导航刻度一起移除，
+/* 报价版开关：链接带 ?price=1 才保留第 11 页；否则整页连同导航刻度一起移除，
    页码 / 进度条 / 页名都由后面的主脚本按剩下的 slide 自动算，不需要另外维护 */
 (function(){
   var v=(new URLSearchParams(location.search)).get('price');
   if(v==='1'||v==='quote'||v==='y'){ document.body.classList.add('has-live'); return; }
   var s=document.getElementById('slideQuote');
-  var g=document.querySelector('.nav-seg[data-i="7"]');
+  var g=document.querySelector('.nav-seg[data-i="10"]');
   if(s&&s.parentNode) s.parentNode.removeChild(s);
   if(g&&g.parentNode) g.parentNode.removeChild(g);
 })();
 </script>
 
-<button class="arrow l" id="arrL">‹</button>
-<button class="arrow r" id="arrR">›</button>
-<div class="swipehint" id="swipeHint"><i>‹</i><span>左滑翻页</span></div>
 
 <!-- 常驻直播入口胶囊（仅报价版显示，见 has-live） -->
-<button class="qlivebar" type="button" id="qLiveBar"><span class="dot"></span>已知晓，晚上预约直播抢报名额！</button>
+<button class="qlivebar" type="button" id="qLiveBar"><span class="dot"></span>今晚19:00官方直播 · 专享权益 ↓</button>
 
 <script>
 /* 直播间入口：**不做任何外链跳转**（每期入口不同，统一口径就是让家长找班主任）→
-   点第 08 页的直播卡按钮 / 右下角胶囊，都只弹一句明确交代，别让家长以为按钮坏了 */
+   点第 09 页的直播卡按钮 / 右下角胶囊，都只弹一句明确交代，别让家长以为按钮坏了 */
 (function(){
   var _t=null;
   function toast(msg){
-    if(_t){ _t.classList.remove('on'); }
+    if(_t){ _t.remove(); }
     _t=document.createElement('div');
     _t.className='qlive-tip'; _t.textContent=msg;
     document.body.appendChild(_t);
-    setTimeout(function(){ _t.classList.add('on'); }, 16);
-    setTimeout(function(){ _t.classList.remove('on'); }, 3400);
-    setTimeout(function(){ if(_t&&_t.parentNode) _t.parentNode.removeChild(_t); _t=null; }, 3800);
+    var tip=_t;
+    setTimeout(function(){ tip.classList.add('on'); }, 16);
+    setTimeout(function(){ tip.classList.remove('on'); }, 3400);
+    setTimeout(function(){ tip.remove(); if(_t===tip) _t=null; }, 3800);
   }
   function openLive(){
-    toast('今晚 19:00 开播即开放报名 · 直播间入口请联系班主任老师获取');
+    toast('今晚19:00直播，入口由班主任老师提供，请查看老师发送的开播通知。');
   }
   var a = document.getElementById('qLiveBtn'), b = document.getElementById('qLiveBar');
   if(a) a.addEventListener('click', openLive);
-  if(b) b.addEventListener('click', openLive);
+
 })();
 </script>
 
@@ -1419,146 +1393,52 @@ body.has-live.at-live .sbody{padding-bottom:96px}
 
 <script>
 (function(){
-  var covers=[].slice.call(document.querySelectorAll('.cover'));
-  var _h=(location.hash||'').replace('#','').toLowerCase();
-  var _pick=(['a','b','c'].indexOf(_h)>=0)?_h:'a';
-  covers.forEach(function(c){ if(c.getAttribute('data-v')!==_pick) c.style.display='none'; });
-  var deck=document.getElementById('deck');
-  var track=document.getElementById('track');
+  var slides=[].slice.call(document.querySelectorAll('#track > .slide'));
   var tabs=[].slice.call(document.querySelectorAll('.nav-seg'));
-  var navCur=document.getElementById('navCur');
-  var NAMES=tabs.map(function(t){return t.getAttribute('aria-label')||''});
+  var nav=document.querySelector('.nav');
+  var now=document.getElementById('pgNow'),all=document.getElementById('pgAll');
   var prog=document.getElementById('navProg');
-  var pgNow=document.getElementById('pgNow');
-  var pgAll=document.getElementById('pgAll');
-  var slides=[].slice.call(track.querySelectorAll('.slide'));
-  var cur=0,entered=false,played=[];
-  if(pgAll) pgAll.textContent=(slides.length<10?'0':'')+slides.length;
-
-  function prepReveal(){
-    slides.forEach(function(sl){
-      var b=sl.querySelector('.sbody'); if(!b) return;
-      [].slice.call(b.children).forEach(function(el,i){
-        el.classList.add('rv-item'); el.style.transitionDelay=Math.min(i,7)*55+'ms';
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var active=-1,ticking=false;
+  all.textContent=String(slides.length).padStart(2,'0');
+  slides.forEach(function(section,i){
+    if(!section.id) section.id='chapter-'+(i+1);
+    section.classList.add('in');
+    tabs[i].setAttribute('aria-controls',section.id);
+    tabs[i].addEventListener('click',function(){
+      section.scrollIntoView({behavior:'instant',block:'start'});
+    });
+  });
+  function sync(){
+    ticking=false;
+    document.body.classList.toggle('past-cover',document.getElementById('cover').getBoundingClientRect().bottom<=nav.getBoundingClientRect().height);
+    var line=nav.getBoundingClientRect().height+32,index=0;
+    slides.forEach(function(section,i){if(section.getBoundingClientRect().top<=line) index=i});
+    if(index!==active){
+      active=index; now.textContent=String(index+1).padStart(2,'0');
+      tabs.forEach(function(tab,i){
+        tab.classList.toggle('on',i===index);
+        if(i===index) tab.setAttribute('aria-current','location');else tab.removeAttribute('aria-current');
       });
+      var selected=tabs[index];
+      selected.parentElement.scrollTo({left:selected.offsetLeft-selected.parentElement.offsetLeft-12,behavior:reduce.matches?'auto':'smooth'});
+    }
+    var total=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(total>0?Math.min(100,Math.max(0,window.scrollY/total*100)):100)+'%';
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(sync)}},{passive:true});
+  window.addEventListener('resize',sync);
+  document.querySelector('[data-start]').addEventListener('click',function(){slides[0].scrollIntoView({behavior:'instant'})});
+  var bar=document.getElementById('qLiveBar');
+  if(bar){
+    bar.textContent='今晚19:00官方直播 · 专享权益 ↓';
+    // The course details remain usable while a real contact destination is being supplied.
+    bar.addEventListener('click',function(){
+      var quote=document.getElementById('slideQuote');
+      if(quote) quote.scrollIntoView({behavior:'instant'});
     });
   }
-  function playReveal(i){
-    var b=slides[i].querySelector('.sbody'); if(!b) return;
-    var kids=[].slice.call(b.children);
-    requestAnimationFrame(function(){requestAnimationFrame(function(){
-      kids.forEach(function(el){el.classList.add('rv-in')});
-    })});
-  }
-
-  function pad(n){return n<10?'0'+n:''+n}
-
-  function setActive(i){
-    if(i<0||i>=slides.length) return;
-    cur=i;
-    tabs.forEach(function(t,j){
-      t.classList.toggle('on',j===i);
-      t.classList.toggle('done',j<i);
-    });
-    if(navCur) navCur.textContent=NAMES[i]||'';
-    pgNow.textContent=pad(i+1);
-    prog.style.width=((i+1)/slides.length*100)+'%';
-    if(played.indexOf(i)<0){played.push(i);slides[i].classList.add('in');playReveal(i)}
-    // 进度条动画触发
-    var bar=slides[i].querySelector('.prog-bar i');
-    if(bar){bar.style.width='0';setTimeout(function(){bar.style.width='8%'},120)}
-    if(window.__syncGallery) window.__syncGallery(slides[i]);
-    slides.forEach(function(sl,j){ sl.classList.toggle('cur', j===i) });   /* 只有当前页的券面动效在跑 */
-    /* 直播胶囊只在「最后一页」（报价版第 08 页）出现；铺课版无此页 → 永远不显示 */
-    document.body.classList.toggle('at-live', slides[i].id==='slideQuote');
-    var aL=document.getElementById('arrL'),aR=document.getElementById('arrR');
-    aL.classList.toggle('off',i===0);
-    aR.classList.toggle('off',i===slides.length-1);
-    /* 最后一页没有「下一页」→ 不再循环提示 */
-    var sh=document.getElementById('swipeHint');
-    if(sh) sh.style.display=(i===slides.length-1)?'none':'';
-  }
-
-  function goTo(i){
-    if(i<0||i>=slides.length) return;
-    track.scrollTo({left:i*track.clientWidth,behavior:'smooth'});
-  }
-
-  function enter(){
-    if(entered) return; entered=true;
-    covers.forEach(function(c){c.classList.add('out')});
-    setTimeout(function(){covers.forEach(function(c){c.style.display='none'})},640);
-    deck.classList.add('on');
-    setTimeout(function(){setActive(0)},420);
-  }
-
-  // 封面交互（三套封面通用）
-  [].slice.call(document.querySelectorAll('[data-start]')).forEach(function(b){
-    b.addEventListener('click',function(e){e.stopPropagation();enter()});
-  });
-  covers.forEach(function(c){
-    c.addEventListener('click',enter);
-    var csx=0,csy=0;
-    c.addEventListener('touchstart',function(e){csx=e.touches[0].clientX;csy=e.touches[0].clientY},{passive:true});
-    c.addEventListener('touchend',function(e){
-      var dx=e.changedTouches[0].clientX-csx,dy=e.changedTouches[0].clientY-csy;
-      if(dx<-36&&Math.abs(dx)>Math.abs(dy)) enter();
-    },{passive:true});
-  });
-
-  // 顶部导航点击（按顺序索引，新增页面时不用改 data-i）
-  tabs.forEach(function(t,i){
-    t.addEventListener('click',function(){goTo(i)});
-  });
-
-  // 左右箭头（桌面端）
-  document.getElementById('arrL').addEventListener('click',function(){goTo(cur-1)});
-  document.getElementById('arrR').addEventListener('click',function(){goTo(cur+1)});
-  /* ---- 手机端滑动提示：每页循环显隐（CSS shBlink 常驻）---- */
-
-  /* 箭头热区外扩：贴边半圆只有 30px，手指不好点 */
-  (function(){
-    var st=document.createElement('style');
-    st.textContent='@media(max-width:899px){.arrow::after{content:"";position:absolute;inset:-9px}}';
-    document.head.appendChild(st);
-  })();
-
-  // 滑动 → 更新高亮
-  var ticking=false;
-  track.addEventListener('scroll',function(){
-    if(ticking) return; ticking=true;
-    requestAnimationFrame(function(){
-      var i=Math.round(track.scrollLeft/track.clientWidth);
-      if(i!==cur) setActive(i);
-      ticking=false;
-    });
-  },{passive:true});
-
-  // 键盘（桌面）
-  document.addEventListener('keydown',function(e){
-    if(!entered) return;
-    // 画廊放大时，方向键交给画廊切图，不要同时翻页
-    if(window.__galleryOpen) return;
-    if(e.key==='ArrowRight') goTo(cur+1);
-    if(e.key==='ArrowLeft') goTo(cur-1);
-  });
-
-  window.addEventListener('resize',function(){
-    track.scrollLeft=cur*track.clientWidth;
-  });
-
-  // 动画兜底：万一入场动画没跑完（系统减弱动效 / 渲染异常），强制显示内容，绝不让文字消失
-  // ⚠️ 必须包含 .stat/.col/.dgrid>div/.hgrid>div —— 它们起始 opacity:0 且带 0.09~0.4s 延迟，
-  //    一旦动画不执行就会整块不可见（数据卡凭空消失），是比"文字消失"更隐蔽的事故
-  setTimeout(function(){
-    [].slice.call(document.querySelectorAll('.rv>b,.fu,.stat,.col,.dgrid>div,.hgrid>div')).forEach(function(el){
-      el.style.animation='none'; el.style.transform='none'; el.style.opacity='1';
-    });
-    [].slice.call(document.querySelectorAll('.cvA-rule')).forEach(function(el){ el.style.width='100%' });
-  },2800);
-
-  prepReveal();
-  setActive(0);
+  sync();
 })();
 
 /* ==================== 循环滚动画廊：无缝 + 点击放大（可复用）====================
@@ -1603,7 +1483,7 @@ body.has-live.at-live .sbody{padding-bottom:96px}
       lbStage=document.getElementById('lbStage'), lbZoom=document.getElementById('lbZoom'),
       lbHint=lbCap?lbCap.querySelector('i'):null;
   if(!lb) return;
-  var list=[], idx=0, open=false;
+  var list=[], idx=0, open=false, previousFocus=null;
 
   // 放大细节：只由右上角按钮触发。点图片一律=关闭（与微信看图一致），不再二段放大
   function setZoom(on){
@@ -1624,6 +1504,8 @@ body.has-live.at-live .sbody{padding-bottom:96px}
     lbImg.setAttribute('src', im.getAttribute('src'));
     lbImg.setAttribute('alt', im.getAttribute('alt')||'');
     lbIdx.textContent=(idx+1)+' / '+list.length;
+    document.getElementById('lbPrev').hidden=list.length<2;
+    document.getElementById('lbNext').hidden=list.length<2;
     lbCap.querySelector('b').textContent=b.getAttribute('data-cap')||'';
     lbStage.scrollTop=0; lbStage.scrollLeft=0;
   }
@@ -1637,7 +1519,9 @@ body.has-live.at-live .sbody{padding-bottom:96px}
     list=reg.items;
     if(!open){
       open=true; window.__galleryOpen=true;
+      previousFocus=document.activeElement; document.body.style.overflow="hidden";
       lb.classList.add('on'); lb.setAttribute('aria-hidden','false');
+      lb.querySelector('.lb-x').focus();
       pauseAll(true);
     }
     show(gi);
@@ -1645,6 +1529,8 @@ body.has-live.at-live .sbody{padding-bottom:96px}
   function closeLb(){
     if(!open) return;
     open=false; window.__galleryOpen=false;
+    document.body.style.overflow="";
+    if(previousFocus) previousFocus.focus({preventScroll:true});
     lb.classList.remove('on'); lb.setAttribute('aria-hidden','true');
     pauseAll(false);
     setTimeout(function(){ if(!open) lbImg.removeAttribute('src') },300);
@@ -1687,6 +1573,12 @@ body.has-live.at-live .sbody{padding-bottom:96px}
 
   document.addEventListener('keydown',function(e){
     if(!open) return;
+    if(e.key==='Tab'){
+      var controls=[].slice.call(lb.querySelectorAll('button')).filter(function(el){return !el.hidden});
+      var first=controls[0],last=controls[controls.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+    }
     if(e.key==='Escape') closeLb();
     else if(e.key==='ArrowRight') show(idx+1);
     else if(e.key==='ArrowLeft') show(idx-1);
@@ -1702,6 +1594,73 @@ body.has-live.at-live .sbody{padding-bottom:96px}
     var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
     if(Math.abs(dx)>46 && Math.abs(dx)>Math.abs(dy)) show(dx<0?idx+1:idx-1);
   },{passive:true});
+})();
+</script>
+<script>
+(function(){
+ var strip=document.querySelector('.project-strip');if(!strip)return;
+ var cards=[].slice.call(strip.children),count=document.querySelector('[data-project-count]'),index=0,timer;
+ var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+ function go(next){index=(next+cards.length)%cards.length;strip.scrollTo({left:cards[index].offsetLeft-strip.firstElementChild.offsetLeft,behavior:reduce.matches?'instant':'smooth'});}
+ function stop(){clearInterval(timer);}
+ function start(){stop();if(reduce.matches)return;timer=setInterval(function(){var r=strip.getBoundingClientRect();if(!document.hidden&&!window.__galleryOpen&&r.top<innerHeight&&r.bottom>0)go(index+1);},5000);}
+ document.querySelector('[data-project-prev]').addEventListener('click',function(){stop();go(index-1);});
+ document.querySelector('[data-project-next]').addEventListener('click',function(){stop();go(index+1);});
+ strip.addEventListener('scroll',function(){index=Math.round(strip.scrollLeft/(strip.clientWidth+16));count.textContent=(index+1)+' / '+cards.length;},{passive:true});
+ strip.addEventListener('touchstart',stop,{passive:true});strip.addEventListener('pointerdown',stop);strip.addEventListener('focusin',stop);reduce.addEventListener('change',start);start();
+})();
+</script>
+
+<script>
+(function(){
+  var audio,enabled=true,reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function chime(){
+    if(!enabled)return;
+    try{
+      var Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
+      if(!audio)audio=new Audio();
+      audio.resume().then(function(){
+        [659.25,987.77].forEach(function(hz,i){
+          var oscillator=audio.createOscillator(),gain=audio.createGain(),at=audio.currentTime+i*.08;
+          oscillator.type='sine';oscillator.frequency.value=hz;
+          gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.12,at+.012);gain.gain.exponentialRampToValueAtTime(.001,at+.2);
+          oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(at);oscillator.stop(at+.21);
+          oscillator.onended=function(){oscillator.disconnect();gain.disconnect()};
+        });
+      }).catch(function(){});
+    }catch(e){}
+  }
+  var clock=document.querySelector('.qclock');
+  if(clock){
+    var clockRelease;
+    clock.addEventListener('click',function(){
+      clearTimeout(clockRelease);clock.classList.add('is-pressed');
+      clockRelease=setTimeout(function(){clock.classList.remove('is-pressed')},180);
+      chime();
+    });
+  }
+  var coupon=document.querySelector('.qhero');
+  if(coupon){
+    var couponObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        coupon.classList.toggle('coupon-visible',entry.isIntersecting);
+        if(entry.isIntersecting)coupon.classList.add('rv-in');
+      });
+    });
+    couponObserver.observe(coupon);
+  }
+  document.querySelectorAll('.growth-sound').forEach(function(toggle){toggle.addEventListener('click',function(){
+    enabled=!enabled;document.querySelectorAll('.growth-sound').forEach(function(t){t.textContent='音效：'+(enabled?'开':'关');t.setAttribute('aria-pressed',String(enabled))});
+  })});
+  document.querySelectorAll('.growth-btn').forEach(function(button){button.addEventListener('click',function(){
+    var layer=button.parentElement.querySelector('.growth-floats'),float=document.createElement('span');
+    if(layer.children.length>=6)layer.firstElementChild.remove();
+    float.className='growth-float';float.textContent=button.dataset.increment;layer.appendChild(float);
+    button.classList.remove('is-shaking');void button.offsetWidth;button.classList.add('is-shaking');
+    setTimeout(function(){float.remove();button.classList.remove('is-shaking')},1050);
+    if(!reduce.matches&&navigator.vibrate)navigator.vibrate(25);
+    chime();
+  })});
 })();
 </script>
 </body>
